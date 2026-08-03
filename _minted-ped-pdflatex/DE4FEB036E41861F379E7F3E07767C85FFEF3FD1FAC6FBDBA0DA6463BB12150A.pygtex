@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+            \PYG{c+c1}{\PYGZsh{} Sistema de ecuaciones  2x + y = 5 / x + 3y = 10}
+            \PYG{c+c1}{\PYGZsh{} Representado como matriz aumentada}
+            \PYG{n}{sistema} \PYG{o}{=} \PYG{p}{[[}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{],}
+                       \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{]]}
+
+            \PYG{c+c1}{\PYGZsh{} Acceder al coeficiente de y en la segunda ecuación}
+            \PYG{n}{coef\PYGZus{}y\PYGZus{}ec2} \PYG{o}{=} \PYG{n}{sistema}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{]}   \PYG{c+c1}{\PYGZsh{} → 3}
+\end{Verbatim}

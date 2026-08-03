@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+            \PYG{n}{matriz} \PYG{o}{=} \PYG{p}{[}
+                \PYG{p}{[}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{110}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{130}\PYG{p}{,} \PYG{l+m+mi}{140}\PYG{p}{,} \PYG{l+m+mi}{150}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+m+mi}{160}\PYG{p}{,} \PYG{l+m+mi}{170}\PYG{p}{,} \PYG{l+m+mi}{180}\PYG{p}{]}
+            \PYG{p}{]}
+            \PYG{k}{for} \PYG{n}{i}\PYG{p}{,} \PYG{n}{fila} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{matriz}\PYG{p}{):}
+                \PYG{k}{for} \PYG{n}{j}\PYG{p}{,} \PYG{n}{valor} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{fila}\PYG{p}{):}
+                    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}La matriz[}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{i}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{][}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{j}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{] = }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{valor}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

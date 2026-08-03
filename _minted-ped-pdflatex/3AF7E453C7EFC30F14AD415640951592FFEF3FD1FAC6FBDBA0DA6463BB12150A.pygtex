@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+            \PYG{n}{batallon} \PYG{o}{=} \PYG{p}{[}
+                \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Compania A\PYGZdq{}}\PYG{p}{,} \PYG{l+m+mi}{35}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Compania B\PYGZdq{}}\PYG{p}{,} \PYG{l+m+mi}{42}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Compania C\PYGZdq{}}\PYG{p}{,} \PYG{l+m+mi}{28}\PYG{p}{]}
+            \PYG{p}{]}
+            \PYG{n}{total\PYGZus{}soldados} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{k}{for} \PYG{n}{compania} \PYG{o+ow}{in} \PYG{n}{batallon}\PYG{p}{:}
+                \PYG{n}{total\PYGZus{}soldados} \PYG{o}{+=} \PYG{n}{\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}}
+
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}El total de soldados es: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

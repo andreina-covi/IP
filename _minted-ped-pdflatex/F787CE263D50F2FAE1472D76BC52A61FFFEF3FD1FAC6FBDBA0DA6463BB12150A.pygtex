@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+            \PYG{c+c1}{\PYGZsh{} (símbolo, número\PYGZus{}atómico, masa\PYGZus{}molar, electronegatividad)}
+            \PYG{n}{tabla} \PYG{o}{=} \PYG{p}{((}\PYG{l+s+s2}{\PYGZdq{}H\PYGZdq{}}\PYG{p}{,}  \PYG{l+m+mi}{1}\PYG{p}{,}   \PYG{l+m+mf}{1.008}\PYG{p}{,}  \PYG{l+m+mf}{2.20}\PYG{p}{),}
+                     \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}C\PYGZdq{}}\PYG{p}{,}  \PYG{l+m+mi}{6}\PYG{p}{,}  \PYG{l+m+mf}{12.011}\PYG{p}{,}  \PYG{l+m+mf}{2.55}\PYG{p}{),}
+                     \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}N\PYGZdq{}}\PYG{p}{,}  \PYG{l+m+mi}{7}\PYG{p}{,}  \PYG{l+m+mf}{14.007}\PYG{p}{,}  \PYG{l+m+mf}{3.04}\PYG{p}{),}
+                     \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}O\PYGZdq{}}\PYG{p}{,}  \PYG{l+m+mi}{8}\PYG{p}{,}  \PYG{l+m+mf}{15.999}\PYG{p}{,}  \PYG{l+m+mf}{3.44}\PYG{p}{),}
+                     \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Na\PYGZdq{}}\PYG{p}{,} \PYG{l+m+mi}{11}\PYG{p}{,} \PYG{l+m+mf}{22.990}\PYG{p}{,}  \PYG{l+m+mf}{0.93}\PYG{p}{))}
+
+            \PYG{c+c1}{\PYGZsh{} Masa molar del nitrógeno}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{tabla}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{][}\PYG{l+m+mi}{2}\PYG{p}{])}  \PYG{c+c1}{\PYGZsh{} 14.007}
+\end{Verbatim}

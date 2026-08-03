@@ -7,3 +7,7 @@
 *.fdb_latexmk
 *.bbl
 *.blg
+*.nav
+*.snm
+*.vrb
+*.pdf

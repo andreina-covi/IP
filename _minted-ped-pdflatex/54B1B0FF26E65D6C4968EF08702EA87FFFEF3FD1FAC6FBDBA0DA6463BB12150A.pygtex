@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+            \PYG{c+c1}{\PYGZsh{} Brigada → Batallones → Compañías}
+            \PYG{c+c1}{\PYGZsh{} orbat[batallón][compañía]}
+            \PYG{n}{orbat} \PYG{o}{=} \PYG{p}{[}
+            \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Cía. A/I Btn\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Cía. B/I Btn\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Cía. C/I Btn\PYGZdq{}}\PYG{p}{],} \PYG{c+c1}{\PYGZsh{} I Batallón}
+            \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Cía. A/II Btn\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Cía. B/II Btn\PYGZdq{}}\PYG{p}{],}      \PYG{c+c1}{\PYGZsh{} II Batallón}
+            \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Cía. Ingenieros\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Cía. Comunicaciones\PYGZdq{}}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Apoyo}
+            \PYG{p}{]}
+
+            \PYG{c+c1}{\PYGZsh{} ¿Qué unidad es la segunda compañía del I Batallón?}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{orbat}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{])}  \PYG{c+c1}{\PYGZsh{} \PYGZdq{}Cía. B/I Btn\PYGZdq{}}
+\end{Verbatim}

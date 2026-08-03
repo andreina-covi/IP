@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+            \PYG{n}{batallon} \PYG{o}{=} \PYG{p}{[}
+                \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Compania A\PYGZdq{}}\PYG{p}{,} \PYG{l+m+mi}{35}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Compania B\PYGZdq{}}\PYG{p}{,} \PYG{l+m+mi}{42}\PYG{p}{],}
+                \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Compania C\PYGZdq{}}\PYG{p}{,} \PYG{l+m+mi}{28}\PYG{p}{]}
+            \PYG{p}{]}
+            \PYG{n}{companias} \PYG{o}{=} \PYG{p}{[]}
+            \PYG{k}{for} \PYG{n}{compania} \PYG{o+ow}{in} \PYG{n}{batallon}\PYG{p}{:}
+                \PYG{n}{nombre\PYGZus{}compania} \PYG{o}{=} \PYG{n}{\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}}
+                \PYG{n}{companias}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Las compañías son: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{companias}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

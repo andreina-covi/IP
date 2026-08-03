@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+            \PYG{c+c1}{\PYGZsh{} Posiciones de objetivos (latitud, longitud)}
+            \PYG{n}{objetivos} \PYG{o}{=} \PYG{p}{[(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{33.45}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{70.67}\PYG{p}{),}
+                         \PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{33.46}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{70.65}\PYG{p}{),}
+                         \PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{33.44}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{70.70}\PYG{p}{)]}
+\end{Verbatim}
