@@ -91,13 +91,13 @@
   \setlength\fibeamer@lengths@cliptop\paperwidth
   \addtolength\fibeamer@lengths@cliptop{%
     -\fibeamer@lengths@clipbottom}
-  % The logo size
+  % The logo size (max box; keepaspectratio preserves the image form)
   \newlength\fibeamer@lengths@logowidth
   \setlength\fibeamer@lengths@logowidth{%
-    14\fibeamer@lengths@baseunit}
+    4\fibeamer@lengths@baseunit}
   \newlength\fibeamer@lengths@logoheight
   \setlength\fibeamer@lengths@logoheight{%
-    0.4\fibeamer@lengths@logowidth}
+    6\fibeamer@lengths@baseunit}
   \defbeamertemplate*{navigation symbols}{fibeamer}{}
   \defbeamertemplate*{headline}{fibeamer}{}
   \defbeamertemplate*{frametitle}{fibeamer}{%
@@ -122,24 +122,31 @@
       \end{tikzpicture}
     \fi}
   \defbeamertemplate*{title page}{fibeamer}{%
-    \begin{darkframes}
-
     % This is slide 0
     \setcounter{framenumber}{0}
 
-    % Input the university logo
-    \begin{tikzpicture}[
-      remember picture,
-      overlay,
-      xshift=0.5\fibeamer@lengths@logowidth,
-      yshift=0.5\fibeamer@lengths@logoheight
-    ]
-      \node at (0,0) {
-        \fibeamer@includeLogo[
-          width=\fibeamer@lengths@logowidth,
-          height=\fibeamer@lengths@logoheight
-        ]};
-    \end{tikzpicture}
+    % Header: DCC text (left) + logo (right)
+    \noindent
+    \begin{minipage}[c]{0.4\textwidth}
+      \raggedright
+      \usebeamercolor[fg]{title}%
+      {\fontsize{28}{32}\selectfont\bfseries DCC\par}
+      \vspace{0em}
+      {\tiny \color{fibeamer@black} Departamento de Ciencia \\
+      \vspace{0em}
+      \color{fibeamer@black} de la Computación\par}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[c]{0.6\textwidth}
+      \raggedleft
+      \fibeamer@includeLogo[
+        width=\fibeamer@lengths@logowidth,
+        height=\fibeamer@lengths@logoheight,
+        keepaspectratio
+      ]
+    \end{minipage}
+
+    \vspace{1.5em}
 
     % Input the title
     \usebeamerfont{title}%
@@ -154,6 +161,7 @@
       \pgfsetlinewidth{2pt}
       \pgfsetroundcap
       \pgfsetdash{{0pt}{4pt}}{0cm}
+      \color{fibeamer@blue}
 
       \pgfpathmoveto{\pgfpoint{0mm}{0mm}}
       \pgfpathlineto{\pgfpoint{\textwidth}{0mm}}
@@ -175,8 +183,7 @@
     \begin{minipage}{\textwidth}
       \raggedright%
       \insertauthor%
-    \end{minipage}
-    \end{darkframes}}
+    \end{minipage}}
 
 \mode
 <all>

@@ -26,7 +26,7 @@
 %%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
 %%
 %% These macros specify information about the presentation
-\title{Introducción a la Programación} %% that will be typeset on the
+\title{IIC1103 - Introducción a la Programación} %% that will be typeset on the
 \subtitle{Semestre II-2026} %% title page.
 \author{Andreina Cota Vidaurre}
 %% These additional packages are used within the document:
@@ -45,6 +45,8 @@
 \usepackage{xcolor}
 \usepackage{minted}
 \usepackage{pifont}
+\usepackage{csquotes}
+\usepackage{hyperref}
 % \usepackage{adjustbox}
 
 
@@ -149,48 +151,211 @@
 
 % \begin{darkframes}
 
-    \begin{frame}{Estructuras anidadas}
+    \begin{frame}{Contenido}
         \begin{itemize}
-            \item Introducción
-            \item Tipos de estructuras anidadas
-            \item Acceso a estructuras anidadas
-            \item Recorrido de estructuras anidadas
-            \item Ejercicios
-            \item Resumen
+            \item \hyperlink{introduccion}{Introducción al curso}
+            \item \hyperlink{competencias}{Competencias y Aprendizajes Esperados}
+            \item \hyperlink{contenidos}{Contenidos del curso}
+            \item \hyperlink{metodologia}{Metodología de Trabajo}
+            \item \hyperlink{evaluacion}{Sistema de Evaluación}
+            \item \hyperlink{normativa}{Normativa del Curso}
+            \item \hyperlink{integridad-academica}{Integridad Académica}
+            \item \hyperlink{recomendaciones}{Recomendaciones para el Semestre}
+            \item \hyperlink{consultas}{Consultas y Contacto}
         \end{itemize}
     \end{frame}
 
-    \begin{frame}{Introducción}
+    \begin{frame}[label=introduccion]{Introducción al curso}
         \begin{itemize}
-            \item En el mundo real, la información rara vez está organizada como una lista simple de elementos.
-            \item Frecuentemente, la información tiene una estructura jerárquica, es decir, hay datos que contienen otros datos.
-            \item Estas estructuras aparecen de forma natural cuando un elemento está compuesto por varios subelementos relacionados entre sí.
-            \item Un estudiante puede tener varios ramos y cada ramo varias notas. El universo contiene galaxias; las galaxias contienen sistemas estelares; y estos contienen estrellas y sus planetas.
+            \item IIC1103 - Introducción a la Programación
+            \item Sección 12, martes y jueves 08:20 - 09:50
+            \item Curso de 10 créditos, sin requisitos previos
+            \item Objetivo: Entregar las herramientas fundamentales para transformar 
+            ideas en soluciones computacionales, mediante el desarrollo del \textbf{pensamiento algorítmico} 
+            y la \textbf{programación orientada a objetos}
         \end{itemize}
     \end{frame}
 
-    \begin{frame}{Introducción}
+    \begin{frame}{Por qué programar?}
+        \begin{quote}
+            \enquote{Todo el mundo debería aprender a programar un ordenador, porque esto te ayuda a pensar.}
+            \hfill \textbf{Steve Jobs}
+        \end{quote}
+        \begin{itemize}
+            \item Programar es, en esencia, dar instrucciones precisas y ordenadas para que alguien o algo resuelva un problema.
+            \item Aprender a programar es aprender a descomponer problemas complejos en pasos simples y ejecutables.
+            \item La forma de pensar que menciona Jobs es el \textbf{pensamiento algorítmico}. Habilidad de descomponer un problema
+            en una secuencia de pasos simples, ordenados y ejecutables.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Algoritmo}
         \begin{figure}
             \centering
-            \includegraphics[width=\linewidth]{resources/organizacion_militar.png}
+            \includegraphics[width=\linewidth]{resources/algoritmo_completo.png}
         \end{figure}
     \end{frame}
 
-    \begin{frame}{Introducción}
+    \begin{frame}[label=competencias]{Competencias y Aprendizajes Esperados}
         \begin{itemize}
-            \item Para representar esa \textbf{estructura jerárquica}, es necesario utilizar estructuras anidadas.
-            \item Una estructura anidada es una colección que contiene otras colecciones.
-            \item En Python, una estructura puede contener distintos tipos de datos y otras estructuras.
-            \item Algunos ejemplos de estructuras anidadas son: 
-            \begin{itemize}
-                \item Listas de listas
-                \item Listas de tuplas
-                \item Tuplas de listas
-                \item Tuplas de tuplas
-                \item Diccionarios de listas
-                \item Diccionarios de diccionarios
-            \end{itemize}
-            % \item Estas estructuras permiten representar relaciones del tipo: datos dentro de datos.
+            \item Pensar algorítmicamente: Identificar problemas, descomponerlos en pasos simples y diseñar soluciones antes 
+            de escribir código.
+            \item Dominar las herramientas de Python: Usar variables, estructuras de control, funciones, strings y 
+            listas para construir soluciones funcionales.
+            \item Programar con un enfoque profesional: Aplicar programación orientada a objetos, y escribir/depurar programas propios 
+            de forma autónoma.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{¿Por qué estas competencias importan?}
+        \begin{itemize}
+            \item Pensamiento algorítmico $\rightarrow$ resolución de problemas en general: La lógica de descomponer un problema en 
+            pasos es transversal a cualquier área.
+            \item Automatización $\rightarrow$ eficiencia: La programación permite automatizar tareas repetitivas, aumentando la productividad.
+            \item Autonomía técnica: Ser capaz de escribir y depurar tus propios programas, sin depender de otros.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[label=contenidos]{Contenidos del curso}
+        \begin{enumerate}
+            \item Introduccion a los algoritmos
+            \item El lenguaje de programación Python
+            \item Variables y expresiones
+            \item Control de flujo
+            \item Funciones
+            \item Strings
+            \item Listas
+            \item Recursión
+            \item Archivos
+            \item Programación orientada a objetos
+            \item Ordenamiento
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}{Etapa 1: Fundamentos de programación}
+
+        \begin{block}{1. Introducción a los algoritmos}
+        Comprender qué es un algoritmo y cómo una tarea puede dividirse
+        en pasos ordenados.
+        \end{block}
+        
+        \begin{block}{2. El lenguaje de programación Python}
+        Conocer la sintaxis básica de Python y ejecutar las primeras
+        instrucciones.
+        \end{block}
+        
+        \begin{block}{3. Variables y expresiones}
+        Trabajar con datos, variables, operaciones, comparaciones,
+        entrada de información y salida de resultados.
+        \end{block}
+        
+    \end{frame}
+
+    \begin{frame}{Etapa 1: Fundamentos de programación}
+        
+        \begin{block}{4. Control de flujo}
+        Construir programas con decisiones e iteraciones mediante
+        condicionales y ciclos.
+        \end{block}
+        
+    \end{frame}
+
+    \begin{frame}{Etapa 2: Organizar y procesar información}
+
+        \begin{block}{5. Funciones}
+        Dividir un programa en partes reutilizables mediante funciones,
+        parámetros, retorno y variables locales.
+        \end{block}
+        
+        \begin{block}{6. Strings}
+        Procesar texto, recorrer caracteres, buscar información,
+        extraer partes y utilizar métodos de strings.
+        \end{block}
+        
+        \begin{block}{7. Listas}
+        Almacenar colecciones de elementos, recorrerlas, modificarlas
+        y trabajar con listas simples y listas anidadas.
+        \end{block}
+        
+    \end{frame}
+
+    \begin{frame}{Etapa 3: Resolver problemas y almacenar información}
+
+        \begin{block}{8. Recursión}
+        Resolver problemas mediante funciones que se llaman a si mismas,
+        utilizando un caso base y un caso recursivo.
+        \end{block}
+        
+        \begin{block}{9. Archivos}
+        Leer, procesar y escribir información almacenada en archivos
+        de texto y archivos CSV.
+        \end{block}
+        
+    \end{frame}
+
+    \begin{frame}{Etapa 4: Construcción de programas más complejos}
+
+        \begin{block}{10. Programación orientada a objetos}
+        Representar entidades mediante clases, objetos, atributos,
+        constructores y métodos.
+        \end{block}
+        
+        \begin{block}{11. Ordenamiento}
+        Ordenar datos utilizando funciones de Python y comprender
+        la idea de los algoritmos de ordenamiento.
+        \end{block}
+        
+    \end{frame}
+
+    \begin{frame}{¿Como avanzaremos?}
+
+        \centering
+        
+        Algoritmos y Python
+        
+        $\downarrow$
+        
+        Variables y expresiones
+        
+        $\downarrow$
+        
+        Control de flujo
+        
+        $\downarrow$
+        
+        Funciones
+        
+        $\downarrow$
+        
+        Strings y listas
+        
+        $\downarrow$
+        
+        Recursión y archivos
+        
+        $\downarrow$
+        
+        Clases, objetos y ordenamiento
+        
+    \end{frame}
+
+    \begin{frame}{Metodología de trabajo}
+        \begin{itemize}
+            \item Clases presenciales: 2 horas por semana
+            \item Laboratorio: 2 horas por semana
+            \item Evaluaciones: 2 veces por semestre
+            \item Asistencia: obligatoria
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Bibliografía}
+        \begin{itemize}
+            \item Python software foundation, \href{http://docs.python.org/3/}{Python v3 Documentation} .
+            \item The quick python book, Manning Publications Co. \href{https://www.manning.com/books/the-quick-python-book}{Segunda edición (2013)}.
+            \item \href{https://greenteapress.com/thinkpython/}{Think Python: How to think like a computer scientist}. A. B. Downey.
+            \item \href{https://www.krishnagudi.com/wp-content/uploads/2023/05/Python-Programming-An-Introduction-to-Computer-Science-John-M.-Zelle.pdf}
+            {Python Programming: An introduction to computer science}, J. M. Zelle.
+            % \item \href{http://runest.ing.puc.cl}{Py-Libre}, Apunte interactivo para el curso Introducción a la Programación.
         \end{itemize}
     \end{frame}
 
