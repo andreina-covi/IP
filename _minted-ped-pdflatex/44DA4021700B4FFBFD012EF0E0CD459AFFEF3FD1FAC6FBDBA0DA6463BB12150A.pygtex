@@ -1,6 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-            \PYG{c+c1}{\PYGZsh{} 3 turnos fijos, cada uno con lista de tareas variable}
-            \PYG{n}{turnos} \PYG{o}{=} \PYG{p}{([}\PYG{l+s+s2}{\PYGZdq{}patrulla norte\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}relevo 06:00\PYGZdq{}}\PYG{p}{],}
-                      \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}guardia sur\PYGZdq{}}\PYG{p}{],}
-                      \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}logística\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}comunicaciones\PYGZdq{}}\PYG{p}{])}
-\end{Verbatim}
