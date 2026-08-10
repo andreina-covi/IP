@@ -1,13 +1,28 @@
+# LaTeX build artifacts
 *.aux
-*.log
-*.out
-*.toc
-*.synctex.gz
-*.fls
-*.fdb_latexmk
 *.bbl
+*.bcf
 *.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
 *.nav
-*.snm
-*.vrb
+*.out
 *.pdf
+*.run.xml
+*.snm
+*.synctex.gz
+*.synctex(busy)
+*.toc
+*.vrb
+*.xdv
+
+# minted (Pygments cache)
+_minted-*/
+*.pyg
+*.pytxcode
+
+# BibTeX / Biber extras
+*-blx.bib

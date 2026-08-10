@@ -1,0 +1,4 @@
+# Exclude sensitive files from Cursor AI context
+.env
+/config/secrets.json
+/proprietary_code/

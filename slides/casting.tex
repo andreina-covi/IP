@@ -1,0 +1,372 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I, the copyright holder of this work, release this work into the
+%% public domain. This applies worldwide. In some countries this may
+%% not be legally possible; if so: I grant anyone the right to use
+%% this work for any purpose, without any conditions, unless such
+%% conditions are required by law.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+%%
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%% These macros specify information about the presentation
+\title{Casting, input() y print()} %% that will be typeset on the
+\subtitle{Semestre I-2026} %% title page.
+\author{Andreina Cota Vidaurre}
+%% These additional packages are used within the document:
+\usepackage{ragged2e}  % `\justifying` text
+\usepackage{booktabs}  % Tables
+\usepackage{tabularx}
+\usepackage{tikz}      % Diagrams
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{positioning, arrows.meta, shadows.blur, shapes.geometric}
+\usepackage{amsmath, amssymb}
+\usepackage{url}       % `\url`s
+\usepackage{listings}  % Code listings
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+% \usepackage{adjustbox}
+
+
+% Definicion de pseudocodigo en espaniol
+\lstdefinelanguage{PseudocodigoES}{
+    morekeywords={INICIO,FIN,PARA,HACER,SI,ENTONCES,FIN_SI,FIN_PARA,IMPRIMIR},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+% Definicion de pseudocodigo en ingles
+\lstdefinelanguage{PseudocodeEN}{
+    morekeywords={BEGIN,END,FOR,DO,IF,THEN,END_IF,END_FOR,PRINT},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    gobble=4,
+    resetmargins=true,
+    aboveskip=0pt,
+    belowskip=0pt
+}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    breaklines=true,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    gobble=4,
+    resetmargins=true,
+    emph={print,input,int,float,str,bool,len,range},
+    emphstyle=\bfseries
+}
+
+\lstset{style=pythonstyle}
+
+% \definecolor{green_python}{HTML}{52A736}
+
+% \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+
+    \begin{frame}[fragile,t]{Casting, \mintinline{python}{input()} y \mintinline{python}{print()}}
+        \begin{itemize}
+            \item Casting es la conversión de un dato de un tipo a otro
+            \item Se usa cuando un dato necesita cambiar de forma para poder operar correctamente
+            \item En Python se hace con funciones como:
+        \end{itemize}
+        \begin{minted}{python}
+            int()
+            float()
+            str()
+            bool()
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Casting}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            numero = "25"
+            numero = int(numero)
+            print(numero + 5)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{\mintinline{python}{int()}}
+         \begin{itemize}
+            \item Convierte un valor a número entero
+            \item Elimina la parte decimal si recibe un número decimal (float)
+            \item Puede convertir texto si el texto representa un número entero válido
+         \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{int()}}
+         \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            int("8")      # 8
+            int(4.9)      # 4
+            int(True)     # 1
+            int(False)    # 0
+        \end{minted}
+        Errores comunes:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            int("3.5")    # error
+            int("hola")   # error
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{\mintinline{python}{float()}}
+        \begin{itemize}
+            \item Convierte un valor a número decimal
+            \item Puede convertir números enteros y textos numéricos
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{float()}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            float("8.2")   # 8.2
+            float("5")     # 5.0
+            float(7)       # 7.0
+        \end{minted}
+        Error común:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            float("tres")  # error
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{\mintinline{python}{str()}}
+        \begin{itemize}
+            \item Convierte un dato a texto
+            \item Es útil para mostrar resultados en pantalla
+            \item Permite unir números con texto
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{str()}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            str(25)        # "25"
+            str(3.14)      # "3.14"
+            str(True)      # "True"
+        \end{minted}
+        Ejemplo práctico
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            edad = 20
+            print("Su edad es " + str(edad))
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{bool()}}
+        \begin{itemize}
+            \item Convierte un valor a \mintinline{python}{True o False}
+            \item Muchos valores se interpretan como verdaderos
+            \item Algunos valores vacíos o cero se interpretan como falsos (False)
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{bool()}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            bool(1)        # True
+            bool(0)        # False
+            bool(3.5)      # True
+            bool(0.0)      # False
+            bool("hola")   # True
+            bool("")       # False
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Errores frecuentes}
+        \begin{itemize}
+            \item Creer que \mintinline{python}{input()} devuelve números
+            \item Usar \mintinline{python}{int("3.7")}
+            \item Pensar que \mintinline{python}{bool("False")} da \mintinline{python}{False}
+            \item Confundir \mintinline{python}{str(5)} con el número $5$
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{bool()}}
+        \begin{itemize}
+            \item \mintinline{python}{0, 0.0, ""} suelen dar \mintinline{python}{False}
+            \item Casi todo lo demás da \mintinline{python}{True}
+        \end{itemize}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            bool("False")
+        \end{minted}
+        Esto da:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            True
+        \end{minted}
+        porque \mintinline{python}{"False"} es un texto no vacío
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{bool()}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            texto = input("Ingrese True o False: ")
+            valor = texto == "True"
+            print(valor)
+        \end{minted}
+        Otra opción:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            texto = input("Ingrese verdadero o falso: ")
+            valor = texto == "verdadero"
+            print(valor)
+        \end{minted}
+    \end{frame}
+
+    % \begin{frame}[fragile,t]{\mintinline{python}{bool()}}
+    %     \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+    %         texto = input("Ingrese si/no: ")
+
+    %         if texto == "si":
+    %             valor = True
+    %         elif texto == "no":
+    %             valor = False
+    %         else:
+    %             print("Entrada no valida")
+    %     \end{minted}
+    % \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{input()} y \mintinline{python}{print()}}
+        \begin{itemize}
+            \item \mintinline{python}{input()} \textbf{recibe} datos
+            \item \mintinline{python}{print()} \textbf{muestra} datos
+        \end{itemize}
+    \end{frame}
+
+    
+    \begin{frame}[fragile,t]{\mintinline{python}{input()}}
+        \begin{itemize}
+            \item Permite ingresar datos desde el teclado
+            \item Se usa para que el usuario escriba el dato requerido
+            \item El valor ingresado se guarda normalmente en una variable
+            \item Lo que devuelve es \textbf{texto}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{input()}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            input("Ingrese su nombre: ")
+        \end{minted}
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nombre = input("Ingrese su nombre: ")
+        \end{minted}
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nombre = input()
+        \end{minted}
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            valor1 = input("Ingrese el valor: ")
+            valor1 = int(valor1)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{print()}}
+        \begin{itemize}
+            \item Muestra información en pantalla
+            \item Se usa para comunicar resultados, mensajes o valores
+            \item Puede mostrar texto, números o variables
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{print()}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            print("Bienvenido al sistema")
+        \end{minted}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            print(5.6)
+        \end{minted}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            valor = 34
+            print(valor)
+        \end{minted}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            print(True)
+        \end{minted}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            valor_booleano = False
+            print(valor_booleano)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{print()}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nombre = input("Como te llamas? ")
+            print("Hola")
+            print(nombre)
+        \end{minted}
+
+        \begin{itemize}
+            \item \mintinline{python}{input("Como te llamas? ")} pide un dato al usuario
+            \item el dato se guarda en la variable \mintinline{python}{nombre}
+            \item \mintinline{python}{print("Hola")} muestra un mensaje
+            \item \mintinline{python}{print(nombre)} muestra un valor almacenado
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Diferencias entre \mintinline{python}{input() y print()}}
+        \begin{itemize}
+            \item \mintinline{python}{input()} espera al usuario. El programa se detiene hasta que el usuario escriba algo
+            \item \mintinline{python}{print()} muestra información y el programa continua
+            \item \mintinline{python}{input()} normalmente se asigna a una variable
+            \item \mintinline{python}{print()} se usa para mostrar variables o resultados
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{input()}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            edad = input("Ingrese su edad: ")
+            print(edad + 1)
+        \end{minted}
+        El código produce un error porque \mintinline{python}{input()} devuelve texto. 
+        Lo correcto sería convertir el texto a entero:
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            edad = int(input("Ingrese su edad: "))
+            print(edad + 1)
+        \end{minted}
+    \end{frame}
+    
+\end{document}

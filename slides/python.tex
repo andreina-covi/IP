@@ -1,0 +1,654 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I, the copyright holder of this work, release this work into the
+%% public domain. This applies worldwide. In some countries this may
+%% not be legally possible; if so: I grant anyone the right to use
+%% this work for any purpose, without any conditions, unless such
+%% conditions are required by law.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetheme[faculty=ped]{fibeamer}
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+%%
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%% These macros specify information about the presentation
+\title{Python, variables y expresiones} %% that will be typeset on the
+\subtitle{Semestre II-2026} %% title page.
+\author{Andreina Cota Vidaurre}
+%% These additional packages are used within the document:
+\usepackage{ragged2e}  % `\justifying` text
+\usepackage{booktabs}  % Tables
+\usepackage{tabularx}
+\usepackage{tikz}      % Diagrams
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{positioning,arrows.meta, shadows.blur}
+\usepackage{amsmath, amssymb}
+\usepackage{url}       % `\url`s
+\usepackage{listings}  % Code listings
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+% \usepackage{adjustbox}
+
+
+% Definicion de pseudocodigo en espaniol
+\lstdefinelanguage{PseudocodigoES}{
+    morekeywords={INICIO,FIN,PARA,HACER,SI,ENTONCES,FIN_SI,FIN_PARA,IMPRIMIR},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+% Definicion de pseudocodigo en ingles
+\lstdefinelanguage{PseudocodeEN}{
+    morekeywords={BEGIN,END,FOR,DO,IF,THEN,END_IF,END_FOR,PRINT},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    gobble=4,
+    resetmargins=true,
+    aboveskip=0pt,
+    belowskip=0pt
+}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    breaklines=true,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    gobble=4,
+    resetmargins=true,
+    emph={print,input,int,float,str,bool,len,range},
+    emphstyle=\bfseries
+}
+
+\lstset{style=pythonstyle}
+
+% \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+    \begin{frame}[fragile,t]{Contenido}
+        \begin{enumerate}
+            \item Python 
+            \item Variables: \mintinline{python}{int, float, string, bool}
+            \item \mintinline{python}{print(), input()}
+            \item Operadores: \mintinline{python}{+, -, *, /, **, //, \%}
+            \item Comparadores: \mintinline{python}{<, >, <=, >=, ==, !=}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}{Python}
+         \begin{itemize}
+             \item Es un lenguaje de programación de alto nivel
+             \item Permite escribir instrucciones para que la computadora resuelva problemas
+             \item Caracterizado por una sintaxis sencilla y legible
+             \item Es uno de los lenguajes más parecidos al lenguaje humano
+         \end{itemize}
+         \vspace{1cm}
+         \centering
+         \includegraphics[height=1cm,keepaspectratio]{python_logo.png}
+    \end{frame}
+
+    \begin{frame}{Python}
+        \begin{itemize}
+            \item Lenguaje creado por Guido van Rossum en 1991.
+            \item Es multiparadigma: soporta programación estructurada, orientada a objetos y funcional.
+            \item Es interpretado, es decir que se ejecuta línea por línea. No se requiere compilación.
+            \item Es de tipado dinámico, es decir que infiere automáticamente el tipo de dato de la variable.
+            \item La indentación es obligatoria dado que los bloques de código se definen 
+            con espacios/tabulaciones y no con llaves {} o begin/end.
+        \end{itemize}
+        \centering
+        \includegraphics[height=1cm,keepaspectratio]{python_logo.png}
+    \end{frame}
+
+    \begin{frame}{Variables, operadores y comparadores}
+        \begin{itemize}
+            \item Un programa necesita tres cosas básicas:
+            \begin{enumerate}
+                \item \textbf{Variables} para guardar datos
+                \item \textbf{Operadores} para trabajar con esos datos
+                \item \textbf{Comparadores} para revisar condiciones y decidir qué hacer
+            \end{enumerate}
+        \end{itemize}
+
+        ``Primero el programa recuerda, luego calcula y finalmente decide``
+   \end{frame}
+
+    \begin{frame}[fragile,t]{Variables}
+        \begin{itemize}
+            \item Una variable es un espacio de memoria que almacena un valor bajo un nombre.
+            \item Se crean mediante asignación directa. Ejemplo: \mintinline{python}{nombre = valor}.
+            \item No pueden comenzar con un número.
+            \item No permiten espacios (se recomienda \mintinline{python}{_} como separador).
+            \item Se recomienda el formato \mintinline{python}{snake_case} (ej: \mintinline{python}{nombre_completo}).
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Variables}
+        \begin{itemize}
+            \item Los nombres de las variables son sensibles a mayúsculas y minúsculas (ej: \mintinline{python}{nombre} $\neq$ \mintinline{python}{Nombre}).
+            \item No pueden ser palabras reservadas del lenguaje.
+            \item Deben ser descriptivos del valor que almacenan.
+        \end{itemize}
+        Ejemplos:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            cantidad_estudiantes = 25          # Tipo entero
+            nota = 3.5                         # Tipo flotante
+            nombre_completo = "Maria López"    # Tipo texto
+            aprobado = True                    # Tipo booleano
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Variables}
+        En matemáticas:
+        \begin{itemize}
+            \item $x$ representa un valor desconocido o general
+            \item Ejemplo: $x + 3 = 10$
+        \end{itemize}
+        En programación:
+        \begin{itemize}
+            \item Una variable guarda un valor concreto en memoria.
+            
+            Ejemplo:
+            
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+                x = 7
+                resultado = x + 3
+            \end{minted}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Variables}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            a = 20
+            b = 5
+            c = a * b
+        \end{minted}
+        
+        El nombre de la variable también comunica
+        
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            precio = 20
+            cantidad = 5
+            total = precio * cantidad
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Identificar variables - miniactividad}
+        En cada situación, identificar qué datos se deben guardar en variables
+        \begin{itemize}
+            \item Calcular el sueldo total de un trabajador
+            \item Calcular el promedio de un estudiante
+            \item Determinar si una persona puede entrar a una actividad según su edad
+            \item Calcular el total a pagar por varios productos
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Tipos de datos}
+        \begin{itemize}
+            \item En Python el tipo de dato se infiere automáticamente.
+            \item Se puede consultar el tipo de dato con la función \mintinline{python}{type()}.
+            \item Los tipos de datos básicos son: 
+            \begin{itemize}
+                \item \mintinline{python}{int} -> Números enteros (ej: 5, -3, 100)
+                \item \mintinline{python}{float} -> Números decimales (ej: 3.1416, -0.25, 1.0)
+                \item \mintinline{python}{string} -> Cadenas de texto (ej: "Hola", "Python", "123")
+                \item \mintinline{python}{bool} -> Valores lógicos (True o False)
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Tipos de datos}
+        \mintinline{python}{int}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            cantidad_estudiantes = 25
+        \end{minted}
+        \mintinline{python}{float}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nota = 3.5
+        \end{minted}
+        \mintinline{python}{string}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nombre_completo = "Maria López"
+        \end{minted}
+        \mintinline{python}{bool}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            aprobado = True
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{print()}}
+        \begin{itemize}
+            \item Muestra información en pantalla (salida de datos).
+            \item Sintaxis básica: \mintinline{python}{print(valor)}.
+            \item Puede mostrar texto, números, variables o combinaciones de estos.
+            \item Permite concatenar con \mintinline{python}{,} (agrega un espacio automáticamente) o 
+            con \mintinline{python}{+} (solo entre strings).
+        \end{itemize}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            print("Hola mundo!")
+        \end{minted}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nombre = "Juan"
+            edad = 20
+            print("Hola", nombre)   # Hola Juan
+            print("Tu edad es", edad) # Tu edad es 20
+            print("Hola", nombre, "tu edad es", edad) # Hola Juan tu edad es 20
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{input()}}
+        \begin{itemize}
+            \item Se usa para recibir información del usuario (entrada de datos).
+            \item Sintaxis básica: \mintinline{python}{variable =input(mensaje)}.
+            \item Siempre devuelve un string \mintinline{python}{str} aunque el usuario escriba un número.
+            \item Para convertir a otro tipo de dato se tiene que hacer el casting (conversión de tipos).
+            \item Ejemplo: \mintinline{python}{edad = int(input("Ingrese su edad: "))}.
+        \end{itemize}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nombre = input("Ingrese su nombre: ")
+            print("Hola", nombre) # Hola Juan
+            edad = int(input("Ingrese su edad: "))
+            print("Tu edad es", edad) # Tu edad es 20
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Operadores aritméticos}
+        \begin{itemize}
+            \item Se utilizan para realizar operaciones matemáticas.
+            \item Permiten realizar acciones sobre los valores almacenados en variables
+            \item Python respeta la jerarquía de operaciones (paréntesis, potencias, multiplicación/división/residuo, suma/resta).
+            \item Se pueden combinar operadores en una misma expresión: \mintinline{python}{(5 + 3) * 2 ** 2}.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Operadores aritméticos}
+        \centering
+        \begin{tabular}{m{0.2\textwidth} m{0.3\textwidth} m{0.4\textwidth}}
+            $+$ & suma & \mintinline{python}{3 + 2 = 5} \\
+            $-$ & resta & \mintinline{python}{8 - 3 = 5} \\
+            $*$ & multiplicación & \mintinline{python}{4 * 2 = 8} \\
+            $/$ & división & \mintinline{python}{10 / 2 = 5} \\
+            $//$ & división entera & \mintinline{python}{10 // 3 = 3} \\
+            $\%$ & residuo & \mintinline{python}{10 % 3 = 1} \\
+            $**$ & potencia & \mintinline{python}{2 ** 3 = 8}
+        \end{tabular}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Operadores aritméticos}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            precio = 15
+            cantidad = 3
+            total = precio * cantidad
+        \end{minted}
+        
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            saldo = 100
+            gasto = 35
+            nuevo_saldo = saldo - gasto
+        \end{minted}
+        
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            galletas = 10
+            personas = 3
+            sobran = galletas % personas
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Operadores aritméticos}
+        El mismo símbolo puede cambiar según el dato
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nombre = "Ana"
+            apellido = "Lopez"
+            completo = nombre + " " + apellido
+        \end{minted}
+        $+$ no suma números sino \textbf{une textos}.
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nombre = "Ana"
+            completo = nombre * 3
+        \end{minted}
+        $*$ no multiplica números sino \textbf{repite textos}.
+    \end{frame}
+
+    \begin{frame}{Operadores aritméticos - mini actividad}
+        Qué operador usarías para resolver cada situación?
+        \begin{itemize}
+            \item Calcular el total de 4 servidores de 2 millones de pesos cada uno
+            \item Saber cuánto dinero queda después de pagar una deuda
+            \item Repartir 25 pizzas entre 4 grupos de estudiantes y saber cuántas sobran
+            \item Calcular la potencia cúbica de un número
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Ejercicios - Operadores aritméticos}
+        Se tienen 18 cajas de galletas para 5 secciones de programación. 
+        Mostrar cuántas cajas corresponde a cada sección y cuántas cajas sobran.
+    \end{frame}
+
+    \begin{frame}[fragile]{Solución en Pseudocódigo}
+        \begin{lstlisting}[language=PseudocodigoES]
+            INICIO
+                LEER cajas
+                LEER secciones
+                por_seccion = cajas / secciones (division entera)
+                sobrantes = cajas - (por_seccion * secciones)
+                IMPRIMIR por_seccion, sobrantes
+            FIN
+        \end{lstlisting}
+    \end{frame}
+
+    \begin{frame}[fragile]{Solución en Pseudocódigo y Python}
+        \begin{lstlisting}[language=PseudocodigoES]
+            INICIO
+                LEER cajas
+                LEER secciones
+                por_seccion = cajas / secciones (division entera)
+                sobrantes = cajas - (por_seccion * secciones)
+                IMPRIMIR por_seccion, sobrantes
+            FIN
+        \end{lstlisting}
+        Python:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            cajas = 18
+            secciones = 5
+            por_seccion = cajas // secciones
+            sobrantes = cajas % secciones
+            print(por_seccion, sobrantes)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejercicios - Operadores aritméticos}
+        \textbf{Planteamiento:} En una base militar hay 18 soldados y llegan 7 refuerzos. Mostrar el total de personas.
+
+        \textbf{Lógica:} 
+        \begin{itemize}
+            \item Entradas: número de soldados y número de refuerzos
+            \item Proceso: sumar
+            \item Salida: total
+        \end{itemize}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            # Python
+            soldados = 18
+            refuerzos = 7
+            total = soldados + refuerzos
+            print(total)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile]{Solución en Pseudocódigo}
+        \begin{lstlisting}[language=PseudocodigoES]
+            INICIO
+                LEER soldados
+                LEER refuerzos
+                total = soldados + refuerzos
+                IMPRIMIR total
+            FIN
+        \end{lstlisting}
+    \end{frame}
+
+    \begin{frame}[fragile]{Solución en Pseudocódigo y Python}
+        \begin{lstlisting}[language=PseudocodigoES]
+            INICIO
+                LEER soldados
+                LEER refuerzos
+                total = soldados + refuerzos
+                IMPRIMIR total
+            FIN
+        \end{lstlisting}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            # Python
+            soldados = int(input("Cantidad de soldados: "))
+            refuerzos = int(input("Cantidad de refuerzos: "))
+            total = soldados + refuerzos
+            print(total)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Comparadores}
+        \begin{itemize}
+            \item Comparar es igual a hacer una pregunta con respuesta verdadero o falso.
+            \item Se utilizan para comparar dos valores y devolver un resultado booleano (True o False).
+        \end{itemize}
+        % \centering
+        % \begin{minted}{python}
+        %     edad >= 18
+        %     nota < 4
+        %     saldo == 0
+        % \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Comparadores}
+        \begin{tabular}{m{0.2\textwidth} m{0.4\textwidth} m{0.4\textwidth}}
+            $==$ & igual a & \mintinline{python}{5 == 5 # True} \\
+            $!=$ & distinto de & \mintinline{python}{5 != 3 # True} \\
+            $>$ & mayor que & \mintinline{python}{7 > 5 # True} \\
+            $<$ & menor que & \mintinline{python}{7 < 5 # False} \\
+            $>=$ & mayor o igual que & \mintinline{python}{4 >= 5 # False} \\
+            $<=$ & menor o igual que & \mintinline{python}{3 <= 5 # True} \\
+        \end{tabular}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Comparadores}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            5 > 3      # True
+            7 == 8     # True
+            4 != 7     # True
+            6 < 2      # False
+        \end{minted}
+        Cuál es el resultado de las siguientes expresiones?
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            5000 > -5000      # ?
+            -100000 >= 0      # ?
+            -0 > 0            # ?
+            3000 == 3000.0    # ?
+            6 != 6.0          # ?
+            0 > -300          # ?
+            True > False      # ?
+            not True == False # ?
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Comparadores}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            estudiantes = 20
+            print(estudiantes > 10)
+        \end{minted}
+        
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nota = 50
+            print(nota >= 40)
+        \end{minted}
+        
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nombre = "Maria"
+            print(nombre == "Maria")
+        \end{minted}
+        
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nombre = "Maria"
+            print(nombre != "Juan")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Diferencia entre $=$ y $==$}
+        % \begin{itemize}
+        %     \item $=$ asigna un valor a una variable
+        %     \item $==$ compara si dos valores son iguales
+        % \end{itemize}
+        % \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+        %     edad = 18
+        %     edad == 18
+        % \end{minted}
+        \begin{tabular}{m{0.17\textwidth} m{0.4\textwidth} m{0.4\textwidth}}
+             & $=$ (asignación) & $==$ (comparación) \\
+            Función & Asigna un valor a una variable & Compara si dos valores son iguales \\
+            Devuelve & No devuelve nada, solo guarda el valor & Devuelve \mintinline{python}{True} o \mintinline{python}{False} \\
+            Ejemplo & \mintinline{python}{edad = 18} & \mintinline{python}{edad == 18} \\
+            Uso típico & Crear o actualizar variables & Condicionales (\mintinline{python}{if, elif}), bucles (\mintinline{python}{while}).\\
+        \end{tabular}
+    \end{frame}
+
+    %  \begin{frame}[fragile,t]{Python - Ejemplo}
+    %     \textbf{Planteamiento:} Un vehículo necesita al menos 40 litros para salir del estacionamiento. Verificar si puede salir.
+
+        
+    %     \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+    %         # Python
+    %         combustible = 52
+    %         print(combustible >= 40)
+    %     \end{minted}
+    % \end{frame}
+
+    % \begin{frame}[fragile,t]{Python - Ejemplo}
+    %     \textbf{Planteamiento:} Una ambulancia recorre 2.5 km por la mañana y 3.2 km por la tarde. 
+    %     Mostrar la distancia total recorrida.
+
+        
+    %     \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+    %         # Python
+    %         maniana = 2.5
+    %         tarde = 3.2
+    %         total = maniana + tarde
+    %         print(total, "km")
+    %     \end{minted}
+    % \end{frame}
+
+    % \begin{frame}[fragile]{Ejemplos en Pseudocódigo y Python}
+    %     \begin{lstlisting}[language=PseudocodigoES]
+    %         INICIO
+    %             LEER combustible
+    %             SI combustible >= 40 ENTONCES
+    %                 IMPRIMIR "Puede salir"
+    %             FIN_SI
+    %         FIN
+    %     \end{lstlisting}
+    %     \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+    %         # Python
+    %         combustible = int(input("Combustible: "))
+
+    %         if combustible >= 40:
+    %             print("Puede salir")
+    %         else:
+    %             print("No puede salir")
+    %     \end{minted}
+    % \end{frame}
+
+    \begin{frame}[fragile,t]{Ejercicios en clase}
+        \begin{itemize}
+            \item Compraste 3 paquetes de arroz a \$1200 cada uno y 2 litros de leche a \$950 cada uno.
+            Declara las variables necesarias (cantidad, precio unitario) y calcula el total a pagar.
+            \item Una estudiante se llama "Camila", tiene 19 años, mide 1.65 m y está matriculada en la universidad (sí o no). 
+            Declara una variable para cada uno de estos datos, usando el tipo adecuado.
+            \item Un auto recorre 180 km en 2.5 horas. Declara las variables de distancia y tiempo, y calcula su velocidad promedio.
+            \item Un paciente tiene una temperatura corporal de 37.8°C. Declara la variable correspondiente y una variable booleana que indique si tiene fiebre (considera fiebre sobre 37.5°C).
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejercicios en clase}
+        \begin{itemize}
+            \item Un objeto se deja caer desde una altura de 20 metros. Declara la variable de altura y la de aceleración de gravedad (9.8 m/s²), y calcula el tiempo de caída.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejercicios en clase}
+        \begin{itemize}
+            \item Un objeto se deja caer desde una altura de 20 metros. Declara la variable de altura y la de aceleración de gravedad (9.8 m/s²), y calcula el tiempo de caída.
+        \end{itemize}
+        \textbf{Fórmula:}
+        $t = \sqrt{\dfrac{2h}{g}}$
+    \end{frame}
+
+    \begin{frame}{Resumen}
+        \begin{itemize}
+            \item Python es un lenguaje interpretado, de alto nivel y de propósito general.
+            \item Python es de tipado dinámico, es decir que infiere automáticamente el tipo de dato de la variable.
+            \item La indentación es parte de la sintaxis de Python, no solo estética.
+            \item Una variable es un espacio en memoria que almacena un valor y tiene un nombre.
+            \item Los nombres de las variables deben ser descriptivos y no contener espacios.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Resumen}
+        \begin{itemize}
+            \item Los tipos de datos más comunes son: \mintinline{python}{int, float, string, bool}.
+            \item Se puede verificar el tipo con la función \mintinline{python}{type()}.
+            \item Los operadores aritméticos son: \mintinline{python}{+, -, *, /, **, //, \%}.
+            \item Los comparadores son: \mintinline{python}{<, >, <=, >=, ==, !=} y devuelven un valor booleano.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Material de clases}
+        Mientras se habilita el acceso a la plataforma oficial, las diapositivas del curso estarán disponibles temporalmente en la siguiente carpeta: 
+        \href{https://uccl0-my.sharepoint.com/:f:/g/personal/acota_uc_cl/IgBGsHN9E_Q4TZiX78b8tjXlAW5MQSzHVR0QzNv-KdNDM3M?e=pcYxmm}{Archivos de la clase}
+
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.5\linewidth]{qr_intro.png}
+        \end{figure}
+    \end{frame}
+    
+    % \begin{frame}{Ejercicios en clase}
+    %     \begin{itemize}
+    %         \item Leer la edad de un estudiante e indicar si cumple la mayoría de edad.
+    %         \item Leer el nivel de autorización de un militar e indicar si puede ingresar a una zona restringida. Solo puede ingresar si su nivel es mayor o igual a 3
+    %         \item Leer el puntaje de una prueba física e indicar si el soldado aprobó o reprobó. Aprueba con 60 puntos o más
+    %         \item Leer la cantidad de soldados de dos pelotones e indicar cual tiene mayor cantidad de efectivos, o si ambos tienen la misma cantidad
+    %         \item Leer la velocidad actual de un convoy e indicar si esta dentro del límite permitido. El límite máximo es 60 km/h.
+    %     \end{itemize}
+    % \end{frame}
+
+    % \begin{frame}{Ejercicios en clase}
+    %     \begin{itemize}
+    %         \item Leer la cantidad de guardias disponibles y la cantidad de puestos de vigilancia. Indicar si hay suficientes guardias para cubrir todos los puestos, suponiendo un guardia por puesto
+    %         \item Leer el tiempo estimado y el tiempo real de llegada de una unidad e indicar si llego a tiempo o con retraso
+    %         \item Leer la cantidad de uniformes y la cantidad de cadetes. Indicar si alcanza un uniforme para cada cadete o no
+    %         \item Leer si un militar esta en turno activo (\textcolor{cyan}{True} o \textcolor{cyan}{False}) e indicar si debe presentarse al puesto de guardia.
+    %     \end{itemize}
+    % \end{frame}
+
+\end{document}

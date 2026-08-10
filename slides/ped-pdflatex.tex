@@ -7,12 +7,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass{beamer}
-\usetheme[faculty=ped,logo=fibeamer/logo/mu/Logo-UC-3.png]{fibeamer} % no extension
+% Compile from slides/ (editor or: latexmk -pdf -cd slides/ped-pdflatex.tex).
+% Theme sty is symlinked here; fibeamer/ and resources/ live one level up.
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
 
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 
-\usetheme[faculty=ped]{fibeamer}
 \usepackage[utf8]{inputenc}
 \usepackage[
   main=english, %% By using `czech` or `slovak` as the main locale
@@ -43,7 +45,6 @@
 \usepackage{amsmath}
 \usepackage[T1]{fontenc}
 \usepackage{xcolor}
-\usepackage{minted}
 \usepackage{pifont}
 \usepackage{csquotes}
 \usepackage{hyperref}
@@ -202,7 +203,7 @@
     \begin{frame}{Algoritmo}
         \begin{figure}
             \centering
-            \includegraphics[width=\linewidth]{resources/algoritmo_completo.png}
+            \includegraphics[width=\linewidth]{algoritmo_completo.png}
         \end{figure}
     \end{frame}
 
@@ -363,11 +364,11 @@
     \begin{frame}{Canal de comunicación y plataforma de trabajo}
         \begin{itemize}
             \item Todos los avisos oficiales del curso se publican en: \href{https://cursos.canvas.uc.cl}{Canvas}
-            \raisebox{-0.35\height}{\includegraphics[height=1.1em]{resources/canvas.png}}
+            \raisebox{-0.35\height}{\includegraphics[height=1.1em]{canvas.png}}
             \item Es responsabilidad de cada estudiante revisar Canvas regularmente para mantenerse informado sobre
             las actividades del curso.
             \item La plataforma para realizar las tareas y ejercicios es: \href{https://www.clearn.cl/}{Clearn}
-            \raisebox{-0.35\height}{\includegraphics[height=1.1em]{resources/clearn_full.png}}
+            \raisebox{-0.35\height}{\includegraphics[height=1.1em]{clearn_full.png}}
         \end{itemize}
     \end{frame}
 
@@ -571,7 +572,7 @@
 
         \begin{figure}
             \centering
-            \includegraphics[width=0.5\linewidth]{resources/qr_intro.png}
+            \includegraphics[width=0.5\linewidth]{qr_intro.png}
         \end{figure}
     \end{frame}
 

@@ -1,13 +1,9 @@
-# Project-root latexmkrc
-# Examples:
-#   latexmk -pdf -cd slides/algoritmo.tex
-#   latexmk -pdf -cd slides/ped-pdflatex.tex
+# slides/latexmkrc — used when the editor / latexmk runs with cwd = slides/
 $ENV{'TZ'} = 'Europe/Prague';
 
 use Cwd 'abs_path';
 
-# Resolved when this RC is read (before latexmk -cd), so it stays the repo root.
-my $root = abs_path('.');
+my $root = abs_path('..');
 ensure_path('TEXINPUTS', $root);
 ensure_path('TEXINPUTS', "$root/common//");
 ensure_path('TEXINPUTS', "$root/fibeamer//");
