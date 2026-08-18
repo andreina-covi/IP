@@ -1,0 +1,529 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I, the copyright holder of this work, release this work into the
+%% public domain. This applies worldwide. In some countries this may
+%% not be legally possible; if so: I grant anyone the right to use
+%% this work for any purpose, without any conditions, unless such
+%% conditions are required by law.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetheme[faculty=ped]{fibeamer}
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+%%
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%% These macros specify information about the presentation
+\title{Control de flujo avanzado} %% that will be typeset on the
+\subtitle{Semestre I-2026} %% title page.
+\author{Andreina Cota Vidaurre}
+%% These additional packages are used within the document:
+\usepackage{ragged2e}  % `\justifying` text
+\usepackage{booktabs}  % Tables
+\usepackage{tabularx}
+\usepackage{tikz}      % Diagrams
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{positioning, arrows.meta, shadows.blur, shapes.geometric}
+\usepackage{amsmath, amssymb}
+\usepackage{url}       % `\url`s
+\usepackage{listings}  % Code listings
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+% \usepackage{adjustbox}
+
+
+% Definicion de pseudocodigo en espaniol
+\lstdefinelanguage{PseudocodigoES}{
+    morekeywords={INICIO,FIN,PARA,HACER,SI,ENTONCES,FIN_SI,FIN_PARA,IMPRIMIR},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+% Definicion de pseudocodigo en ingles
+\lstdefinelanguage{PseudocodeEN}{
+    morekeywords={BEGIN,END,FOR,DO,IF,THEN,END_IF,END_FOR,PRINT},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    gobble=4,
+    resetmargins=true,
+    aboveskip=0pt,
+    belowskip=0pt
+}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    breaklines=true,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    gobble=4,
+    resetmargins=true,
+    emph={print,input,int,float,str,bool,len,range},
+    emphstyle=\bfseries
+}
+
+\lstset{style=pythonstyle}
+
+% Estilos del diagrama
+\tikzstyle{iniciofin} = [
+    ellipse,
+    minimum width=2.5cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=blue!25
+]
+
+\tikzstyle{proceso} = [
+    rectangle,
+    rounded corners,
+    minimum width=3cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=cyan!20
+]
+
+\tikzstyle{decision} = [
+    diamond,
+    aspect=2,
+    text centered,
+    draw=black,
+    fill=yellow!35
+]
+
+\tikzstyle{flecha} = [
+    thick,
+    ->,
+    >=Stealth
+]
+
+% \definecolor{green_python}{HTML}{52A736}
+
+% \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+% \begin{darkframes}
+
+    \begin{frame}{Contenido}
+        \begin{itemize}
+            \item Múltiples condicionales
+            \item Operadores lógicos \mintinline{python}{and, or, not}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Repaso breve}
+        \begin{itemize}
+            \item \mintinline{python}{if} ejecuta un bloque si la condición es verdadera
+            \item \mintinline{python}{else} se usa cuando no cumple la condición
+            \item \mintinline{python}{elif} permite evaluar otra condición
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{\mintinline{python}{if-elif-else}}
+        \begin{itemize}
+            \item Permite evaluar varias condiciones en orden
+            \item El programa entra solo en el primer bloque verdadero
+            \item Si ninguna condición se cumple, se ejecuta \mintinline{python}{else}
+            \item El orden de las condiciones importa
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Ejemplo}
+        \begin{itemize}
+            \item si nota $>=$ 6.5 -> Excelente
+            \item si nota $>=$ 5.5 -> Muy bien
+            \item si nota $>=$ 4 -> Aprobado
+            \item si no -> Reforzamiento
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Resolver el siguiente problema}
+        Acceso a un área restringida
+        \begin{itemize}
+            \item Primero verificar si el militar tiene credencial válida
+            \item Solo si la tiene, verificar si posee autorización especial
+            \item Si no tiene credencial, no tiene sentido revisar autorización
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{\mintinline{python}{ifs} anidados}
+        \begin{itemize}
+            \item Un \mintinline{python}{if} anidado es un \mintinline{python}{if} dentro de otro \mintinline{python}{if}
+            \item Se usa cuando una decisión depende de una condición previa
+            \item La segunda evaluación ocurre solo si la primera lo permite
+            \item Representa decisiones jerárquicas
+            \item Ayuda a modelar procesos por pasos
+            \item Debe cuidarse mucho la indentación
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Estructura general}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if condicion1:
+                if condicion2:
+                    print("Se cumplen ambas condiciones")
+        \end{minted}
+        Con \mintinline{python}{else} puede verse así:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if condicion1:
+                if condicion2:
+                    print("Puede continuar")
+                else:
+                    print("Falla la segunda condicion")
+            else:
+                print("Falla la primera condicion")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejemplo 1: ifs anidados}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            tiene_credencial = True
+            tiene_autorizacion = False
+            
+            if tiene_credencial:
+                if tiene_autorizacion:
+                    print("Puede ingresar")
+                else:
+                    print("Credencial valida, pero sin autorizacion")
+            else:
+                print("Acceso denegado")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejemplo 2: ifs anidados}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nota = 3.7
+            asistio_recuperacion = True
+            nota_recuperacion = 4.5
+            
+            if nota >= 4:
+                print("Aprobado directamente")
+            else:
+                if asistio_recuperacion:
+                    if nota_recuperacion >= 4:
+                        print("Aprobado en recuperacion")
+                    else:
+                        print("No aprobo en recuperacion")
+                else:
+                    print("Reprobado")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejemplo 3: número positivo y par}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            numero = 8
+
+            if numero >= 0:
+                if numero % 2 == 0:
+                    print("El numero es positivo y par")
+                else:
+                    print("El numero es positivo, pero impar")
+            else:
+                print("El numero no es positivo")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Diferencias}
+        \textbf{if anidado}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if tiene_credencial:
+                if tiene_autorizacion:
+                    print("Puede ingresar")
+        \end{minted}
+        \textbf{if separados}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if tiene_credencial:
+                print("Tiene credencial")
+            
+            if tiene_autorizacion:
+                print("Tiene autorizacion")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Actividad 1: analizar el flujo}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            edad = 20
+            tiene_permiso = False
+            if edad >= 18:
+                if tiene_permiso:
+                    print("Puede conducir vehiculo oficial")
+                else:
+                    print("Es mayor de edad, pero no tiene permiso")
+            else:
+                print("No tiene la edad minima")
+        \end{minted}
+        \begin{itemize}
+            \item Qué condición se evalua primero?
+            \item Cuál se evalua después?
+            \item Qué mensaje se muestra?
+            \item Qué cambia si \mintinline{python}{tiene_permiso=True}?
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Actividad 2: completar el código}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            temperatura = 39
+            tiene_sintomas = True
+            
+            if __________:
+                if __________:
+                    print("Debe pasar a revision medica")
+                else:
+                    print("Tiene temperatura alta, pero no reporta sintomas")
+            else:
+                print("Temperatura normal")
+        \end{minted}
+    \end{frame}
+    
+    \begin{frame}[fragile,t]{Operadores lógicos}
+        A veces no queremos una decisión dentro de otra, sino evaluar varias condiciones al mismo tiempo en una sola expresión; para eso se usan los operadores lógicos: \mintinline{python}{and, or, not}
+
+        Los operadores lógicos permiten construir condiciones más complejas a partir de condiciones simples.
+    \end{frame}
+
+    \begin{frame}{Operadores lógicos: \mintinline{python}{and, or, not}}
+        \mintinline{python}{and}
+        \begin{itemize}
+            \item Ambas condiciones deben ser verdaderas
+            \item Se usa cuando se deben cumplir varios requisitos al mismo tiempo
+        \end{itemize}
+        \mintinline{python}{or}
+        \begin{itemize}
+            \item Basta con que una condición sea verdadera
+            \item Se usa cuando se existen caminos alternativos
+        \end{itemize}
+        \mintinline{python}{not}
+        \begin{itemize}
+            \item Invierte el valor lógico
+            \item Convierte verdadero en falso, y el falso en verdadero
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Operador \mintinline{python}{and}}
+        La expresión es verdadera si \textbf{ambas condiciones} son verdaderas
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            condicion1 and condicion2
+        \end{minted}
+        Se usa cuando el problema exige que se cumplan \textbf{varios requisitos al mismo tiempo}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            edad = 20
+            tiene_permiso = True
+
+            if edad >= 18 and tiene_permiso:
+                print("Puede conducir")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Operador \mintinline{python}{or}}
+        La expresión es verdadera si \textbf{al menos una} condición es verdaderas
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            condicion1 or condicion2
+        \end{minted}
+        Se usa cuando existen \textbf{caminos alternativos} para que algo ocurra
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            es_oficial = False
+            tiene_permiso_especial = True
+            
+            if es_oficial or tiene_permiso_especial:
+                print("Puede ingresar")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Operador \mintinline{python}{not}}
+        Sirve para \textbf{invertir} el valor lógico de una condición
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            not condicion
+        \end{minted}
+        Ejemplo:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            registrado = False
+
+            if not registrado:
+                print("No puede ingresar al sistema")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Tablas de verdad}
+        La tabla de verdad ayuda a analizar, de forma ordenada, todas las combinaciones posibles entre condiciones y el resultado final de la expresión
+        \begin{itemize}
+            \item Organiza los valores \textbf{Verdadero (V)} y \textbf{Falso (F)} de una o más condiciones
+            \item Muestra el resultado de aplicar operadores lógicos como \mintinline{python}{and, or, not}
+            \item Ayuda a comprender cómo funcionan las condiciones compuestas
+            \item Permite analizar todas las posibilidades sin omitir casos
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Tabla de verdad: and}
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            A & B & A and B \\
+            \hline
+            F & F & F \\
+            \hline
+            F & V & F \\
+            \hline
+            V & F & F \\
+            \hline
+            \textcolor{blue}{V} & \textcolor{blue}{V} & \textcolor{blue}{V} \\
+            \hline
+        \end{tabular}
+    \end{frame}
+
+    \begin{frame}{Tabla de verdad: or}
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            A & B & A or B \\
+            \hline
+            \textcolor{blue}{F} & \textcolor{blue}{F} & \textcolor{blue}{F} \\
+            \hline
+            F & V & V \\
+            \hline
+            V & F & V \\
+            \hline
+            V & V & V \\
+            \hline
+        \end{tabular}
+    \end{frame}
+    
+    \begin{frame}{Tabla de verdad: not}
+        \centering
+        \begin{tabular}{|c|c|}
+            \hline
+            A & not A \\
+            \hline
+            F & V \\
+            \hline
+            V & F \\
+            \hline
+        \end{tabular}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejemplo \mintinline{python}{and}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nota = 6
+            asistencia = 85
+            
+            if nota >= 4 and asistencia >= 80:
+                print("Aprueba la materia")
+            else:
+                print("No cumple los requisitos")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejemplo \mintinline{python}{or}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            termino_turno = False
+            tiene_permiso = True
+            
+            if termino_turno or tiene_permiso:
+                print("Puede retirarse")
+            else:
+                print("Debe permanecer en su puesto")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejemplo \mintinline{python}{not}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            esta_registrado = False
+
+            if not esta_registrado:
+                print("Debe registrarse primero")
+            else:
+                print("Puede continuar")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Mini actividad}
+        Un estudiante aprueba una practica si su nota es al menos 4 y su asistencia es al menos 80.
+
+        Qué operador lógico se necesita? \pause
+
+        \mintinline{python}{and}
+    \end{frame}
+
+    \begin{frame}{Mini actividad}
+        Un militar puede salir si termino su turno o si tiene una autorizacion especial.
+
+        Qué operador lógico se necesita? \pause
+
+        \mintinline{python}{or}
+    \end{frame}
+
+    \begin{frame}{Mini actividad}
+        Si un usuario no esta registrado, no puede ingresar.
+
+        Qué operador lógico se necesita? \pause
+
+        \mintinline{python}{not}
+    \end{frame}
+
+
+    \begin{frame}{Actividades}
+        \begin{itemize}
+            \item Un cadete solo puede ingresar a la unidad si lleva uniforme reglamentario y credencial. Si cumple ambas condiciones, se debe verificar además si tiene autorización del instructor. Mostrar el mensaje correspondiente segun cada caso.
+            \item Un militar puede salir de la unidad si terminó su turno o si tiene un permiso especial. Sin embargo, si tiene una observación disciplinaria activa, no puede salir aunque cumpla alguna de las condiciones anteriores. Mostrar el resultado final.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Actividades}
+        \begin{itemize}
+            \item Un soldado puede ser asignado a la guardia nocturna si tiene buen estado de salud y aprobó el entrenamiento físico. Si cumple esas condiciones, verificar ademas si ya hizo guardia la noche anterior. Si hizo guardia la noche anterior, no debe ser asignado.
+            \item Un cadete puede ingresar al comedor si esta registrado en la lista o si presenta autorizacion excepcional. Si no cumple ninguno de estos requisitos, se le niega el ingreso. Si logra ingresar, indica si su horario corresponde a desayuno, almuerzo o cena segun la hora actual.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Actividades}
+        \begin{itemize}
+            \item Solicitar el puntaje de una prueba física. De acuerdo con la nota, clasificar como: Excelente, Bueno, Regular, Insuficiente. Si el puntaje es insuficiente, verificar si tiene justificativo médico.
+            \item Un militar será observado si no lleva botas reglamentarias o no lleva gorra. Si además no porta su identificación, debe enviarse a reporte disciplinario. Mostrar el resultado correspondiente.
+            \item Solicitar dos números enteros. Determinar si el primero es divisible por el segundo. Antes de hacer la verificación, revisar que el segundo número no sea cero.
+        \end{itemize}
+    \end{frame}
+\end{document}

@@ -155,8 +155,26 @@
             \item Estructura \mintinline{python}{if}
             \item Estructura \mintinline{python}{if - else}
             \item Estructura \mintinline{python}{if - elif - else}
-            \item Funciones útiles: \mintinline{python}{(abs(), round(), max(), min())}
+            \item Estructura \mintinline{python}{if - elif}
         \end{enumerate}
+    \end{frame}
+
+    \begin{frame}{Control de flujo}
+        \begin{itemize}
+            \item Es el orden en el que se ejecutan las instrucciones de un programa
+            \item Por defecto, el código se ejecuta secuencialmente (línea por línea, de arriba hacia abajo)
+            \item Permite que, según el resultado, el programa continue por un camino u otro
+            \item El programa no siempre ejecuta lo mismo
+            \item Puede cambiar su camino según la condición
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Tipos de estructuras de control}
+        \begin{itemize}
+            \item Secuenciales: instrucciones que se ejecutan una después de la otra
+            \item Condicionales (selección): permiten tomar decisiones (\mintinline{python}{if}, \mintinline{python}{else}, \mintinline{python}{elif})
+            \item Iterativas (repetición): permiten repetir bloques de código (\mintinline{python}{for}, \mintinline{python}{while})
+        \end{itemize}
     \end{frame}
 
     \begin{frame}{Condición}
@@ -173,42 +191,10 @@
         \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
             edad >= 18                  # mayor de edad o no
             nota >= 4                   # aprobado o reprobado
-            temperatura < 36.0          # tiene fiebre o no
-            numero_soldados != 100
+            temperatura >= 37.5         # tiene fiebre o no
+            password == "123456"        # contraseña correcta o no
+            aprobado != True            # no aprobado o no
         \end{minted}
-    \end{frame}
-
-    \begin{frame}{Control de flujo}
-        \begin{itemize}
-            \item Permite que, según el resultado, el programa continue por un camino u otro
-            \item El programa no siempre ejecuta lo mismo
-            \item Puede cambiar su camino según la condición
-        \end{itemize}
-    \end{frame}
-
-    \begin{frame}{Diagrama de flujo: ejemplo básico}
-        \centering
-        \begin{tikzpicture}[node distance=1.4cm, 
-        every node/.style={scale=0.75}, 
-        transform shape]
-        
-            % Nodos
-            \node (inicio) [iniciofin] {Inicio};
-            \node (leer) [proceso, below of=inicio] {Leer edad};
-            \node (condicion) [decision, below of=leer, yshift=-0.3cm] {edad >= 18?};
-            \node (mayor) [proceso, below left=1.4cm and 2cm of condicion] {Mostrar: Mayor de edad};
-            \node (menor) [proceso, below right=1.4cm and 2cm of condicion] {Mostrar: Menor de edad};
-            \node (fin) [iniciofin, below=2cm of condicion] {Fin};
-        
-            % Flechas
-            \draw [flecha] (inicio) -- (leer);
-            \draw [flecha] (leer) -- (condicion);
-            \draw [flecha] (condicion) -- node[anchor=east] {Si} (mayor);
-            \draw [flecha] (condicion) -- node[anchor=west] {No} (menor);
-            \draw [flecha] (mayor) |- (fin);
-            \draw [flecha] (menor) |- (fin);
-        
-        \end{tikzpicture}
     \end{frame}
 
     \begin{frame}[fragile,t]{\mintinline{python}{if}}
@@ -221,6 +207,43 @@
             \item En Python, el bloque se reconoce por la indentación
          \end{itemize}
     \end{frame}
+
+    \begin{frame}{Diagrama de flujo: \mintinline{python}{if}}
+        \centering
+        \begin{tikzpicture}[node distance=0.8cm, 
+            every node/.style={scale=0.75}, 
+            transform shape]
+        
+            % Nodos
+            \node (inicio) [iniciofin] {Inicio};
+            \node (leer) [proceso, below=of inicio] {Leer combustible};
+            
+            \node (condicion) [decision, below=0.7cm of leer] 
+                {combustible >= 50?};
+            
+            \node (salida) [proceso, below=0.7cm of condicion] 
+                {Autorizar salida};
+            
+            \node (fin) [iniciofin, below=0.7cm of salida] {Fin};
+        
+            % Flechas
+            \draw [flecha] (inicio) -- (leer);
+            \draw [flecha] (leer) -- (condicion);
+        
+            % Si
+            \draw [flecha] (condicion) -- 
+                node[anchor=east] {Si} (salida);
+        
+            \draw [flecha] (salida) -- (fin);
+        
+            % No: omite el bloque del if
+            \draw [flecha] (condicion.east) -- ++(2,0)
+                node[midway, above] {No}
+                |- (fin.east);
+        
+        \end{tikzpicture}
+    \end{frame}
+
 
     \begin{frame}[fragile,t]{\mintinline{python}{if} - Ejemplos}
         1. Comprobar si un estudiante aprobó la prueba de programación
@@ -276,9 +299,35 @@
         \end{itemize}
     \end{frame}
 
+    \begin{frame}{Diagrama de flujo: \mintinline{python}{if - else}}
+        \centering
+        \begin{tikzpicture}[node distance=1.4cm, 
+        every node/.style={scale=0.75}, 
+        transform shape]
+        
+            % Nodos
+            \node (inicio) [iniciofin] {Inicio};
+            \node (leer) [proceso, below of=inicio] {Leer edad};
+            \node (condicion) [decision, below of=leer, yshift=-0.3cm] {edad >= 18?};
+            \node (mayor) [proceso, below left=1.4cm and 2cm of condicion] {Mostrar: Mayor de edad};
+            \node (menor) [proceso, below right=1.4cm and 2cm of condicion] {Mostrar: Menor de edad};
+            \node (fin) [iniciofin, below=2cm of condicion] {Fin};
+        
+            % Flechas
+            \draw [flecha] (inicio) -- (leer);
+            \draw [flecha] (leer) -- (condicion);
+            \draw [flecha] (condicion) -- node[anchor=east] {Si} (mayor);
+            \draw [flecha] (condicion) -- node[anchor=west] {No} (menor);
+            \draw [flecha] (mayor) |- (fin);
+            \draw [flecha] (menor) |- (fin);
+        
+        \end{tikzpicture}
+    \end{frame}
+
     \begin{frame}[fragile,t]{\mintinline{python}{if} - Ejemplos}
         1. Comprobar si un estudiante aprobó la prueba de programación. 
-        Si no aprobó, se debe mostrar un mensaje de reprobación.
+        \textbf{Si no aprobó, se debe mostrar un mensaje de reprobación.}
+        
         \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
             puntaje_interrogacion = 5.4
             if(puntaje_interrogacion >= 4):
@@ -286,9 +335,12 @@
             else:
                 print("El estudiante no aprobo la prueba")
         \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{if - else} - Ejemplos}
         2. Se necesita comprobar si el voltaje medido en un circuito es igual al voltaje nominal 
-        esperado (220V). Si coincide, se confirma que el circuito funciona correctamente. Si no, 
-        se debe mostrar un mensaje de error.
+        esperado (220V). Si coincide, se confirma que el circuito funciona correctamente. \textbf{Si no, 
+        se debe mostrar un mensaje de error.}
         \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
             voltaje_medido = 225
             if voltaje_medido == 220:
@@ -298,11 +350,11 @@
         \end{minted}
     \end{frame}
 
-    \begin{frame}[fragile,t]{\mintinline{python}{if} - Ejemplos}
+    \begin{frame}[fragile,t]{\mintinline{python}{if - else} - Ejemplos}
         3. En un sistema de seguridad, hay una variable que indica si la puerta está 
         abierta (\mintinline{python}{True}) o cerrada (\mintinline{python}{False}). 
-        Si la puerta está abierta, se debe mostrar una advertencia. Si está cerrada, se debe 
-        mostrar un mensaje de confirmación.
+        Si la puerta está abierta, se debe mostrar una advertencia. \textbf{Si está cerrada, se debe 
+        mostrar un mensaje de confirmación.}
         \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
             puerta_abierta = True
             if puerta_abierta:
@@ -310,9 +362,12 @@
             else:
                 print("La puerta está cerrada")
         \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{if - else} - Ejemplos}
         4. Un sistema recibe el estado de una máquina como texto. Si el estado es "detenida", 
-        se debe mostrar un mensaje indicando que la máquina no está operando. Si está operando, 
-        se debe mostrar un mensaje de confirmación.
+        se debe mostrar un mensaje indicando que la máquina no está operando. \textbf{Si está operando, 
+        se debe mostrar un mensaje de confirmación.}
         \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
             estado_maquina = "detenida"
             if estado_maquina == "detenida":
@@ -362,29 +417,135 @@
         El orden importa. \textbf{Cuando una condición se cumple, las demas ya no se revisan.}
     \end{frame}
 
+    \begin{frame}{Diagrama de flujo: \mintinline{python}{if - elif - else}}
+        \centering
+        \begin{tikzpicture}[node distance=0.5cm, 
+            every node/.style={scale=0.72}, 
+            transform shape]
+        
+            % Nodos
+            \node (inicio) [iniciofin] {Inicio};
+            \node (leer) [proceso, below=of inicio] {Leer nivel de alerta};
+        
+            % Primera condicion
+            \node (condicion1) [decision, below=0.5cm of leer] 
+                {nivel >= 3?};
+        
+            % Segunda condicion
+            \node (condicion2) [decision, below=0.5cm of condicion1] 
+                {nivel == 2?};
+        
+            % Acciones
+            \node (accion1) [proceso, right=2.5cm of condicion1] 
+                {Activar protocolo};
+        
+            \node (accion2) [proceso, right=2.5cm of condicion2] 
+                {Reforzar vigilancia};
+        
+            \node (accion3) [proceso, below=0.5cm of condicion2] 
+                {Vigilancia normal};
+        
+            \node (fin) [iniciofin, below=0.5cm of accion3] {Fin};
+        
+            % Flechas principales
+            \draw [flecha] (inicio) -- (leer);
+            \draw [flecha] (leer) -- (condicion1);
+        
+            % Primera condicion
+            \draw [flecha] (condicion1) -- 
+                node[above] {Si} (accion1);
+        
+            \draw [flecha] (condicion1) -- 
+                node[anchor=east] {No} (condicion2);
+        
+            % Segunda condicion
+            \draw [flecha] (condicion2) -- 
+                node[above] {Si} (accion2);
+        
+            \draw [flecha] (condicion2) -- 
+                node[anchor=east] {No} (accion3);
+        
+            % Salidas hacia fin
+            \draw [flecha] (accion1.east) -- ++(1,0) |- (fin.east);
+            \draw [flecha] (accion2.east) -- ++(0.7,0) |- (fin.east);
+            \draw [flecha] (accion3) -- (fin);
+        
+        \end{tikzpicture}
+    \end{frame}
+
     \begin{frame}[fragile,t]{\mintinline{python}{if - elif - else} - Ejemplos}
-        1. Clasificación de puntaje
+        1. Según la temperatura del día, una persona decide qué ropa usar. 
+        Si la temperatura es mayor a 28°C, usa ropa ligera. Si está entre 15°C y 28°C, 
+        usa ropa normal. Si es menor a 15°C, usa abrigo.
+        
         \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            puntaje = 6
-            if puntaje >= 6.5:
-                print("Rendimiento excelente")
-            elif puntaje >= 5:
-                print("Rendimiento aceptable")
+            temperatura = 10
+
+            if temperatura > 28:
+                print("Usa ropa ligera")
+            elif temperatura >= 15:
+                print("Usa ropa normal")
             else:
-                print("Debe reforzar su entrenamiento")
+                print("Usa abrigo")
         \end{minted}
     \end{frame}
 
     \begin{frame}[fragile,t]{\mintinline{python}{if - elif - else} - Ejemplos}
-        2. Evaluación de asistencia a instrucción
+        2. Un semáforo indica qué acción debe tomar un conductor según su color. 
+        Si está en rojo, debe detenerse. Si está en amarillo, debe prepararse para detenerse. 
+        Si está en verde, puede avanzar.
         \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            asistencias = 5
-            if asistencias == 5:
-                print("Asistencia completa")
-            elif asistencias >= 3:
-                print("Asistencia parcial")
+            color = "amarillo"
+
+            if color == "rojo":
+                print("Detente")
+            elif color == "amarillo":
+                print("Prepárate para detenerte")
             else:
-                print("Asistencia insuficiente")
+                print("Puedes avanzar")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{if - elif}}
+        \begin{itemize}
+            \item Permite evaluar múltiples condiciones en orden, 
+            cuando hay más de dos posibles resultados
+            \item Python evalúa las condiciones de arriba hacia abajo y 
+            ejecuta solo el primer bloque cuya condición sea verdadera
+            \item \mintinline{python}{elif} es la forma corta de "else if";
+            evita tener que anidar varios \mintinline{python}{if} por separado
+            \item El \mintinline{python}{else} al final es opcional, se usa para
+            manejar el caso cuando ninguna de las condiciones anteriores es verdadera
+            \item Se pueden usar tantos \mintinline{python}{elif} como se necesiten.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{if - elif} - Ejemplos}
+        1. Una tienda aplica descuentos según la cantidad de productos que compra un cliente. 
+        Si compra más de 10 productos, obtiene 20\% de descuento. 
+        Si compra entre 5 y 10 productos, obtiene 10\% de descuento.
+        
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            cantidad = 7
+
+            if cantidad > 10:
+                print("Descuento del 20%")
+            elif cantidad >= 5:
+                print("Descuento del 10%")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{if - elif} - Ejemplos}
+        2. Un celular muestra un mensaje según el nivel de batería. Si la batería es menor al 15\%, 
+        muestra un aviso de batería crítica. Si está entre 15\% y 30\%, 
+        muestra un aviso de batería baja.
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            bateria = 20
+
+            if bateria < 15:
+                print("Batería crítica")
+            elif bateria <= 30:
+                print("Batería baja")
         \end{minted}
     \end{frame}
 
@@ -424,6 +585,37 @@
             \item Confundir \mintinline{python}{=} con \mintinline{python}{==}
             \item Mala indentación
             \item Condiciones mal ordenadas en \mintinline{python}{elif}
+            \item Escribir varios \mintinline{python}{if} en lugar de \mintinline{python}{elif}. Esto hace que Python
+            evalúe todas las condiciones, incluso si ya se cumplió una anteriormente.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if nota >= 90:
+                print("A")
+            if nota >= 70:
+                print("B")
+            \end{minted}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Errores comunes en condicionales}
+        \begin{itemize}
+            \item Colocar condiciones más generales antes que las específicas.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if nota >= 60:
+                print("Aprobado")
+            elif nota >= 90:
+                print("Excelente")
+            \end{minted}
+            \item Comparar tipos de datos diferentes.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if nota == "90":
+                print("Excelente")
+            \end{minted}
+            \item Olvidar que \mintinline{python}{elif} y \mintinline{python}{else} 
+            dependen del \mintinline{python}{if} anterior.
+            \item Comparar booleanos innecesariamente: \mintinline{python}{if variable == True:}
+            en lugar de \mintinline{python}{if variable:}. 
+            
+            No es un error, pero es una mala práctica.
         \end{itemize}
     \end{frame}
 
@@ -437,269 +629,37 @@
     %     \end{minted}
     % \end{frame}
 
-    \begin{frame}[fragile,t]{Funciones útiles: \mintinline{python}{abs(), round(), max(), min()}}
-        \begin{itemize}
-            \item Son funciones integradas de Python, es decir, ya vienen disponibles
-            \item Reciben uno o más valores y devuelven un resultado
-            \item Simplifican la escritura del código
-            \item Ayudan a calcular, ajustar o comparar valores
-            \item Pueden utilizarse solas o dentro de expresiones, condiciones y asignaciones
-        \end{itemize}
-    \end{frame}
+   
+    % \begin{frame}{Actividad}
+    %     \begin{enumerate}
+    %         \item Pedir un número e indicar si es positivo, negativo o cero
+    %         \item Pedir dos números e indicar si el primero es divisible por el segundo
+    %         \item Pedir dos números y mostrar cuál es el mayor
+    %         \item Dadas tres notas, mostrar la mayor y la menor
+    %         \item Dadas tres calificaciones, calcular el promedio y mostrarlo redondeado a dos cifras. Luego indicar si el estudiante aprueba o no
+    %         \item Dados dos valores, indicar si la diferencia entre ellos es pequeña, media o grande. La diferencia es pequeña si es menor que 5, es media si está entre 5 y 10, y es grande si es mayor que 10
+    %     \end{enumerate}
+    % \end{frame}
 
-    \begin{frame}[fragile,t]{\mintinline{python}{abs()}}
-        \begin{itemize}
-            \item Devuelve el valor absoluto de un número
-            \item Si el número es negativo, lo convierte en positivo
-            \item Si el número ya es positivo, lo deja igual
-            \item Útil cuando importa la magnitud del valor, no si es positivo o negativo
-            \item Se usa con frecuencia para calcular diferencias, errores o distancias
-        \end{itemize}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{abs()} - Ejemplos}
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            temperatura = -5
-            print(abs(temperatura))   # Imprime 5 como salida
-        \end{minted}
-
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            diferencia = abs(8 - 13)
-            print(diferencia)         # Imprime 5 como salida
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{abs()} - Ejemplos}
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            municion_esperada = 120
-            municion_real = 95
-            
-            diferencia = abs(municion_esperada - municion_real)
-            print("Diferencia de municion:", diferencia)
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{abs()} - Ejemplos}
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            tiempo_planificado = 45
-            tiempo_real = 52
-            
-            diferencia_tiempo = abs(tiempo_real - tiempo_planificado)
-            print("Diferencia de tiempo:", \
-                diferencia_tiempo, "minutos")
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{round()}}
-        \begin{itemize}
-            \item Redondea un número
-            \item Puede redondear al entero más cercano
-            \item También puede redondear a una cantidad específica de decimales
-            \item Útil cuando un resultado tiene muchos decimales y queremos hacerlo más claro
-            \item Se usa con frecuencia en promedios, medidas, tiempos, distancias y porcentajes
-            \item Ayuda a presentar resultados de forma más ordenada
-        \end{itemize}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{round()}}
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            promedio = 8.67
-            round(promedio)     # Muestra 8
-        \end{minted}
-
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            print(round(8.67, 1))   # Muestra 8.7
-        \end{minted}
-
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            print(round(7.346, 2))   # Muestra 7.35
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{round()} - Ejemplos}
-        1. Consumo promedio de combustivle de un vehículo táctico
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            consumo = 18.4927
-            consumo_redondeado = round(consumo, 2)
-            
-            print("Consumo promedio:", consumo_redondeado, "litros")
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{max()}}
-        \begin{itemize}
-            \item Devuelve el valos más grande
-            \item Puede comparar dos o más valores
-            \item También puede usarse con una colección de datos
-            \item Es útil cuando necesitamos identificar el mayor resultado, la mayor distancia, el mayor puntaje o el valor más alto
-            \item Ayuda a simplificar el código
-        \end{itemize}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{max()} - Ejemplos}
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            max(valor1, valor2, valor3)
-        \end{minted}
-        
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            print(max(4, 9, 2))         # Retorna 9
-        \end{minted}
-
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            print(max("Ana", "Juan", "Carlos")) # Retorna "Juan"
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{max()} - Ejemplos}
-        1. Obtener la mayor cantidad de munición entre tres escuadras
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            escuadra_a = 120
-            escuadra_b = 95
-            escuadra_c = 140
-            
-            mayor_municion = max(escuadra_a, escuadra_b, escuadra_c)
-            print("Mayor cantidad de municion:", mayor_municion)
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{max()} - Ejemplos}
-        2. Obtener el mayor número de asistencias en entrenamiento
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            compania_a = 28
-            compania_b = 31
-            compania_c = 26
-            compania_d = 15
-            compania_e = 30
-            
-            mayor_asistencia = max(compania_a, compania_b, \
-                                compania_c, compania_d, \
-                                compania_e)
-            print("Mayor asistencia:", mayor_asistencia)
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{min()}}
-        \begin{itemize}
-            \item Devuelve el valor más pequeño
-            \item Puede comparar dos o más valores
-            \item También puede usarse con una colección de datos
-            \item Es útil cuando necesitamos identificar la menor distancia, el menor puntaje, el tiempo más corto o el valor más bajo
-            \item Evita escribir muchas comparaciones manuales
-        \end{itemize}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{min()} - Ejemplos}
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            min(valor1, valor2, valor3)         
-        \end{minted}
-    
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            print(min(4, 9, 2))             # Imprime 2
-        \end{minted}
-
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            print(min("Ana", "Juan", "Carlos")) # Imprime "Ana"
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{min()} - Ejemplos}
-        1. Obtener el menor tiempo de recorrido en una marcha
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            tiempo_peloton_1 = 42
-            tiempo_peloton_2 = 39
-            tiempo_peloton_3 = 45
-            
-            menor_tiempo = min(tiempo_peloton_1, tiempo_peloton_2, \
-                            tiempo_peloton_3)
-            print("Menor tiempo de recorrido:", menor_tiempo)
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{\mintinline{python}{min()} - Ejemplos}
-        2. Obtener la menor carga transportada por vehículos militares
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            vehiculo_1 = 800
-            vehiculo_2 = 950
-            vehiculo_3 = 870
-            vehiculo_4 = 1078
-            
-            carga_minima = min(vehiculo_1, vehiculo_2, vehiculo_3, \
-                            vehiculo_4)
-            print("Menor carga transportada:", carga_minima, "kg")
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{Integración de funciones con condicionales}
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            diferencia = abs(temperatura_real - temperatura_esperada)
-
-            if diferencia > 5:
-                print("La diferencia es grande")
-            else:
-                print("La diferencia es aceptable")
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{Integración de funciones con condicionales}
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            promedio = 7.49
-
-            if round(promedio) >= 8:
-                print("Buen rendimiento")
-            else:
-                print("Debe mejorar")
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{Integración de funciones con condicionales}
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            mayor = max(nota1, nota2, nota3)
-
-            if mayor >= 6.5:
-                print("Hay una nota excelente")
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}[fragile,t]{Integración de funciones con condicionales}
-        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
-            menor = min(nota1, nota2, nota3)
-
-            if menor < 4:
-                print("Existe al menos una nota reprobada")
-        \end{minted}
-    \end{frame}
-
-    \begin{frame}{Actividad}
-        \begin{enumerate}
-            \item Pedir un número e indicar si es positivo, negativo o cero
-            \item Pedir dos números e indicar si el primero es divisible por el segundo
-            \item Pedir dos números y mostrar cuál es el mayor
-            \item Dadas tres notas, mostrar la mayor y la menor
-            \item Dadas tres calificaciones, calcular el promedio y mostrarlo redondeado a dos cifras. Luego indicar si el estudiante aprueba o no
-            \item Dados dos valores, indicar si la diferencia entre ellos es pequeña, media o grande. La diferencia es pequeña si es menor que 5, es media si está entre 5 y 10, y es grande si es mayor que 10
-        \end{enumerate}
-    \end{frame}
-
-    \begin{frame}{Actividad}
-        \begin{enumerate}
-            \item Pedir un número de tres cifras e indicar si es capicúa o no
-            \item Pedir un número de tres cifras y mostrar cuál es su cifra mayor
-            \item Pedir un número de cuatro cifras, sumar sus cifras e indicar si la suma es par o impar
-            \item Tres escuadras tienen cuatro cantidades distintas de munición. Mostrar cuál tiene más y cuál tiene menos y si la diferencia entre ambas supera el límite de 100
-            \item Dadas tres horas de llegada, identificar la más temprana, la más tardía y decidir si la diferencia entre ambas es aceptable. Es aceptable si la diferencia es menor a 15 minutos
-        \end{enumerate}
-    \end{frame}
+    % \begin{frame}{Actividad}
+    %     \begin{enumerate}
+    %         \item Pedir un número de tres cifras e indicar si es capicúa o no
+    %         \item Pedir un número de tres cifras y mostrar cuál es su cifra mayor
+    %         \item Pedir un número de cuatro cifras, sumar sus cifras e indicar si la suma es par o impar
+    %         \item Tres escuadras tienen cuatro cantidades distintas de munición. Mostrar cuál tiene más y cuál tiene menos y si la diferencia entre ambas supera el límite de 100
+    %         \item Dadas tres horas de llegada, identificar la más temprana, la más tardía y decidir si la diferencia entre ambas es aceptable. Es aceptable si la diferencia es menor a 15 minutos
+    %     \end{enumerate}
+    % \end{frame}
 
     \begin{frame}[fragile,t]{Resumen}
         \begin{itemize}
+            \item El control de flujo usa el resultado de la condición para decidir qué instrucciones ejecutar
             \item Las condiciones permiten evaluar una situación
             \item Una condición siempre se evalua como \mintinline{python}{True} o \mintinline{python}{False}
-            \item El control de flujo usa el resultado de la condición para decidir qué instrucciones ejecutar
             \item \mintinline{python}{if} ejecuta un bloque si la condición es verdadera
             \item \mintinline{python}{else} permite un camino alternativo
             \item \mintinline{python}{elif} permite evaluar varias posibilidades
             \item La indentación es fundamental
-            \item Funciones como \mintinline{python}{abs(), round(), max() y min()} qyudan a procesar datos antes de decidir
         \end{itemize}
     \end{frame}
     
