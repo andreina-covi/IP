@@ -1,0 +1,264 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I, the copyright holder of this work, release this work into the
+%% public domain. This applies worldwide. In some countries this may
+%% not be legally possible; if so: I grant anyone the right to use
+%% this work for any purpose, without any conditions, unless such
+%% conditions are required by law.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetheme[faculty=ped]{fibeamer}
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+%%
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%% These macros specify information about the presentation
+\title{Control de flujo: Soluciones propuestas} %% that will be typeset on the
+\subtitle{Semestre II-2026} %% title page.
+\author{Andreina Cota Vidaurre}
+%% These additional packages are used within the document:
+\usepackage{ragged2e}  % `\justifying` text
+\usepackage{booktabs}  % Tables
+\usepackage{tabularx}
+\usepackage{tikz}      % Diagrams
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{positioning, arrows.meta, shadows.blur, shapes.geometric}
+\usepackage{amsmath, amssymb}
+\usepackage{url}       % `\url`s
+\usepackage{listings}  % Code listings
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+% \usepackage{adjustbox}
+
+
+% Definicion de pseudocodigo en espaniol
+\lstdefinelanguage{PseudocodigoES}{
+    morekeywords={INICIO,FIN,PARA,HACER,SI,ENTONCES,FIN_SI,FIN_PARA,IMPRIMIR},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+% Definicion de pseudocodigo en ingles
+\lstdefinelanguage{PseudocodeEN}{
+    morekeywords={BEGIN,END,FOR,DO,IF,THEN,END_IF,END_FOR,PRINT},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    gobble=4,
+    resetmargins=true,
+    aboveskip=0pt,
+    belowskip=0pt
+}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    breaklines=true,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    gobble=4,
+    resetmargins=true,
+    emph={print,input,int,float,str,bool,len,range},
+    emphstyle=\bfseries
+}
+
+\lstset{style=pythonstyle}
+
+% Estilos del diagrama
+\tikzstyle{iniciofin} = [
+    ellipse,
+    minimum width=2.5cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=blue!25
+]
+
+\tikzstyle{proceso} = [
+    rectangle,
+    rounded corners,
+    minimum width=3cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=cyan!20
+]
+
+\tikzstyle{decision} = [
+    diamond,
+    aspect=2,
+    text centered,
+    draw=black,
+    fill=yellow!35
+]
+
+\tikzstyle{flecha} = [
+    thick,
+    ->,
+    >=Stealth
+]
+
+% \definecolor{green_python}{HTML}{52A736}
+
+% \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+% \begin{darkframes}
+
+    \begin{frame}[fragile,t]{Ejercicio práctico}
+        En un servicio de urgencias, un paciente se clasifica como
+        \textbf{prioridad alta} si su presión sistólica es menor a
+        90\,mmHg \textbf{o} su frecuencia respiratoria supera las
+        30 respiraciones por minuto.
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            presion_sistolica = 85      # mmHg
+            frecuencia_respiratoria = 22  # resp/min
+            
+            # Completa la condicion:
+            if presion_sistolica < 90 or frecuencia_respiratoria > 30:
+                print("Prioridad alta")
+            else:
+                print("Prioridad estandar")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Alerta por calidad de aire - Ejercicio}
+        Dado el nivel de PM2.5 en el aire ($\mu$g/m³) y si la persona consultante pertenece 
+        a un grupo de riesgo (niños, adultos mayores o personas con enfermedades respiratorias), 
+        determina el mensaje de alerta que debe mostrar la aplicación.
+
+        \begin{itemize}
+            \item Si el PM2.5 supera 55 $\mu$g/m³ (nivel considerado dañino según estándares de 
+            calidad del aire), y la persona es de grupo de riesgo → alerta máxima.
+            \item Si supera ese nivel pero la persona no es de grupo de riesgo $\rightarrow$ alerta moderada.
+            \item Si no supera ese nivel $\rightarrow$ aire aceptable.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Alerta por calidad de aire - Solución propuesta}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            pm25 = 62              # microgramos por metro cubico
+            grupo_riesgo = True
+
+            if pm25 > 55:
+                if grupo_riesgo:
+                    print("Alerta maxima: evitar salir")
+                else:
+                    print("Alerta: reducir actividades al aire libre")
+            else:
+                print("Aire aceptable")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Autorización de vuelo - Ejercicio}
+        Una empresa de delivery con drones te pide programar la decisión de si un dron 
+        puede iniciar su ruta. Los drones no pueden volar con vientos superiores a 40 km/h 
+        por razones de estabilidad. Si el viento lo permite, el vuelo depende de la batería: 
+        se requiere al menos 30\% para cualquier entrega, pero si el pedido pesa más de 2 kg, 
+        el consumo aumenta y se exige un mínimo de 50\%.
+
+        A partir del viento, el nivel de batería y el peso del pedido, determina si el dron 
+        puede iniciar la entrega y, si no puede, indica el motivo.
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Autorización de vuelo - Solución propuesta}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\tiny]{python}
+                viento = 25          # km/h
+                bateria = 45          # %
+                peso_pedido = 2.5     # kg
+
+                if viento > 40:
+                    print("No autorizado: viento excesivo")
+                else:
+                    if peso_pedido > 2:
+                        if bateria >= 50:
+                            print("Autorizado")
+                        else:
+                            print("No autorizado: bateria insuficiente para el peso")
+                    else:
+                        if bateria >= 30:
+                            print("Autorizado")
+                        else:
+                            print("No autorizado: batería insuficiente")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Clasificación de hipotermia - Ejercicio}
+        Trabajas en una app para equipos de rescate en montaña. El protocolo clínico distingue tres 
+        niveles de hipotermia según la temperatura corporal central: leve (entre 32\,°C y 35\,°C), 
+        moderada (entre 28\,°C y 32\,°C) y severa (bajo 28\,°C). El equipo médico te indica que, además, 
+        si el paciente ha estado expuesto al frío por más de 3 horas, su caso debe marcarse como de 
+        mayor urgencia dentro de la categoría que le corresponda.
+
+        A partir de la temperatura corporal y el tiempo de exposición de un paciente, escribe un 
+        programa que entregue un mensaje con su nivel de hipotermia y su nivel de urgencia.
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Clasificación de hipotermia - Solución propuesta}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\tiny]{python}
+                temperatura_corporal = 30.5   # grados Celsius
+                horas_exposicion = 4
+
+                if temperatura_corporal < 28:
+                    if horas_exposicion > 3:
+                        print("Hipotermia severa - urgencia critica")
+                    else:
+                        print("Hipotermia severa - urgencia alta")
+                elif temperatura_corporal < 32:
+                    if horas_exposicion > 3:
+                        print("Hipotermia moderada - urgencia alta")
+                    else:
+                        print("Hipotermia moderada - urgencia media")
+                else:
+                    if horas_exposicion > 3:
+                        print("Hipotermia leve - urgencia media")
+                    else:
+                        print("Hipotermia leve - urgencia baja")
+        \end{minted}
+    \end{frame}
+    
+\end{document}

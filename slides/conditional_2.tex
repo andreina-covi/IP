@@ -1,0 +1,496 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I, the copyright holder of this work, release this work into the
+%% public domain. This applies worldwide. In some countries this may
+%% not be legally possible; if so: I grant anyone the right to use
+%% this work for any purpose, without any conditions, unless such
+%% conditions are required by law.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetheme[faculty=ped]{fibeamer}
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+%%
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%% These macros specify information about the presentation
+\title{Control de flujo} %% that will be typeset on the
+\subtitle{Semestre II-2026} %% title page.
+\author{Andreina Cota Vidaurre}
+%% These additional packages are used within the document:
+\usepackage{ragged2e}  % `\justifying` text
+\usepackage{booktabs}  % Tables
+\usepackage{tabularx}
+\usepackage{tikz}      % Diagrams
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{positioning, arrows.meta, shadows.blur, shapes.geometric}
+\usepackage{amsmath, amssymb}
+\usepackage{url}       % `\url`s
+\usepackage{listings}  % Code listings
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+% \usepackage{adjustbox}
+
+
+% Definicion de pseudocodigo en espaniol
+\lstdefinelanguage{PseudocodigoES}{
+    morekeywords={INICIO,FIN,PARA,HACER,SI,ENTONCES,FIN_SI,FIN_PARA,IMPRIMIR},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+% Definicion de pseudocodigo en ingles
+\lstdefinelanguage{PseudocodeEN}{
+    morekeywords={BEGIN,END,FOR,DO,IF,THEN,END_IF,END_FOR,PRINT},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    gobble=4,
+    resetmargins=true,
+    aboveskip=0pt,
+    belowskip=0pt
+}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    breaklines=true,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    gobble=4,
+    resetmargins=true,
+    emph={print,input,int,float,str,bool,len,range},
+    emphstyle=\bfseries
+}
+
+\lstset{style=pythonstyle}
+
+% Estilos del diagrama
+\tikzstyle{iniciofin} = [
+    ellipse,
+    minimum width=2.5cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=blue!25
+]
+
+\tikzstyle{proceso} = [
+    rectangle,
+    rounded corners,
+    minimum width=3cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=cyan!20
+]
+
+\tikzstyle{decision} = [
+    diamond,
+    aspect=2,
+    text centered,
+    draw=black,
+    fill=yellow!35
+]
+
+\tikzstyle{flecha} = [
+    thick,
+    ->,
+    >=Stealth
+]
+
+% \definecolor{green_python}{HTML}{52A736}
+
+% \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+% \begin{darkframes}
+
+    \begin{frame}[fragile,t]{Contenido}
+        \begin{enumerate}
+            \item Sintaxis básica de \mintinline{python}{if-elif-else}
+            \item Condicionales con operadores lógicos
+            \item \mintinline{python}{if} anidados: múltiples condicionales
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}{Repaso breve}
+        \begin{itemize}
+            \item \mintinline{python}{if} ejecuta un bloque si la condición es verdadera
+            \item \mintinline{python}{elif} permite evaluar otra condición
+            \item \mintinline{python}{else} se usa cuando no cumple la condición
+            \item El orden de las condiciones importa
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Estructura general de \mintinline{python}{if-elif-else}}
+        \begin{itemize}
+            \item Estructura de \mintinline{python}{if}:
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+                if condicion:
+                    print("Se cumple la condición")
+            \end{minted}
+            \item Estructura de \mintinline{python}{if-elif}:
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}   
+                if condicion1:
+                    print("Se cumple la condición")
+                elif condicion2:
+                    print("Se cumple la segunda condición")
+            \end{minted}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Estructura general de \mintinline{python}{if-elif-else}}
+        \begin{itemize}
+            \item Estructura de \mintinline{python}{if-elif-else}:
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if condicion1:
+                print("Se cumple la primera condición")
+            elif condicion2:
+                print("Se cumple la segunda condición")
+            elif condicionN:
+                print("Se cumple la N-ésima condición")
+            else:
+                print("No se cumple ninguna condición")
+            \end{minted}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Actividad}
+        \begin{enumerate}
+            \item Pedir un número e indicar si es positivo, negativo o cero
+            \item Pedir dos números e indicar si el primero es divisible por el segundo
+            \item Pedir dos números y mostrar cuál es el mayor
+            \item Pedir un número de tres cifras e indicar si es capicúa o no
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Condicional con operador \mintinline{python}{and}}
+        \begin{itemize}
+            \item Con \mintinline{python}{and} se pueden evaluar múltiples condiciones
+            \item Todas las condiciones deben ser verdaderas para que se ejecute el bloque
+            \item Si alguna condición es falsa, el bloque no se ejecuta
+        \end{itemize}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if condicion1 and condicion2:
+                print("Se cumplen ambas condiciones")
+        \end{minted}
+        Ejemplo:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            profundidad = 35   # metros
+            tiempo = 25        # minutos
+            
+            if profundidad > 30 and tiempo > 20:
+                print("Riesgo alto: requiere parada de descompresion")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Condicional con operador \mintinline{python}{and} - Ejemplo}
+        En Chile la red eléctrica domiciliaria opera a \textbf{220\,V / 50\,Hz}. 
+        Los equipos suelen tolerar un margen de aprox. $\pm$5--10\,V; ambas condiciones
+        (mínimo y máximo) deben cumplirse a la vez.
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            voltaje = 225   # volts
+ 
+            if voltaje >= 210 and voltaje <= 230:
+                print("Voltaje dentro de rango seguro")
+            else:
+                print("Voltaje fuera de rango: revisar instalacion") 
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Condicional con operador \mintinline{python}{or}}
+        \begin{itemize}
+            \item Con \mintinline{python}{or} se pueden evaluar múltiples condiciones
+            \item Solo se necesita que una condición sea verdadera para que se ejecute el bloque
+            \item Si todas las condiciones son falsas, el bloque no se ejecuta
+        \end{itemize}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if condicion1 or condicion2:
+                print("Se cumple alguna condición")
+        \end{minted}
+        Ejemplo:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            edad = 17
+            tiene_licencia = True
+            if edad >= 18 or tiene_licencia:
+                print("La persona puede conducir")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Condicional con operador \mintinline{python}{or} - Ejemplo}
+        Chile se ubica en el Cinturón de Fuego del Pacífico y
+        concentra parte importante de la actividad sísmica
+        mundial. Los sistemas de alerta temprana consideran
+        \emph{magnitud} \textbf{o} \emph{profundidad} del sismo.
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            magnitud = 7.8
+            profundidad_km = 15
+            
+            if magnitud >= 7.5 or profundidad_km <= 30:
+                print("Emitir alerta de tsunami")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Condicional con operador \mintinline{python}{not}}
+        Con \mintinline{python}{not} se puede negar una condición
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if not condicion:
+                print("La condición es falsa")
+        \end{minted}
+        Ejemplo:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            tiene_licencia = True
+            if not tiene_licencia:
+                print("La persona no puede conducir")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Condicional con operador \mintinline{python}{not} - Ejemplo}
+        Los búhos tienen retinas dominadas por bastones (poca
+        percepción de color, alta sensibilidad a la luz), una
+        adaptación que los hace mucho más activos en ausencia
+        de luz solar.
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            hay_luz_solar = False
+
+            if not hay_luz_solar:
+                print("El buho comienza a cazar")
+         \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejercicio práctico}
+        En un servicio de urgencias, un paciente se clasifica como
+        \textbf{prioridad alta} si su presión sistólica es menor a
+        90\,mmHg \textbf{o} su frecuencia respiratoria supera las
+        30 respiraciones por minuto.
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            presion_sistolica = 85      # mmHg
+            frecuencia_respiratoria = 22  # resp/min
+            
+            # Completa la condicion:
+            if ____________:
+                print("Prioridad alta")
+            else:
+                print("Prioridad estandar")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejercicio práctico}
+        El Golden Gate Bridge se ha cerrado al tránsito de
+        vehículos livianos en episodios de viento extremo
+        (rachas superiores a $\sim$120\,km/h), como medida de
+        seguridad estructural.
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            velocidad_viento = 110    # km/h
+            carga_actual = 85         # % de la carga maxima
+            inspeccion_reciente = False
+            
+            if velocidad_viento > 100 or 
+                (carga_actual > 90 and not inspeccion_reciente):
+                print("Cerrar el puente por seguridad")
+            else:
+                print("Puente operando con normalidad")
+
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{\mintinline{python}{ifs} anidados}
+        \begin{itemize}
+            \item Un \mintinline{python}{if} anidado es un \mintinline{python}{if} dentro de otro \mintinline{python}{if}
+            \item Se usa cuando una decisión depende de una condición previa
+            \item La segunda evaluación ocurre solo si la primera lo permite
+            \item Representa decisiones jerárquicas
+            \item Ayuda a modelar procesos por pasos
+            \item Debe cuidarse mucho la indentación
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Estructura general}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if condicion1:
+                if condicion2:
+                    print("Se cumplen ambas condiciones")
+        \end{minted}
+        Con \mintinline{python}{else} puede verse así:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            if condicion1:
+                if condicion2:
+                    print("Puede continuar")
+                else:
+                    print("Falla la segunda condicion")
+            else:
+                print("Falla la primera condicion")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Alerta por calidad de aire - Ejercicio}
+        Dado el nivel de PM2.5 en el aire ($\mu$g/m³) y si la persona consultante pertenece 
+        a un grupo de riesgo (niños, adultos mayores o personas con enfermedades respiratorias), 
+        determina el mensaje de alerta que debe mostrar la aplicación.
+
+        \begin{itemize}
+            \item Si el PM2.5 supera 55 $\mu$g/m³ (nivel considerado dañino según estándares de 
+            calidad del aire), y la persona es de grupo de riesgo → alerta máxima.
+            \item Si supera ese nivel pero la persona no es de grupo de riesgo $\rightarrow$ alerta moderada.
+            \item Si no supera ese nivel $\rightarrow$ aire aceptable.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Autorización de vuelo - Ejercicio}
+        Una empresa de delivery con drones te pide programar la decisión de si un dron 
+        puede iniciar su ruta. Los drones no pueden volar con vientos superiores a 40 km/h 
+        por razones de estabilidad. Si el viento lo permite, el vuelo depende de la batería: 
+        se requiere al menos 30\% para cualquier entrega, pero si el pedido pesa más de 2 kg, 
+        el consumo aumenta y se exige un mínimo de 50\%.
+
+        A partir del viento, el nivel de batería y el peso del pedido, determina si el dron 
+        puede iniciar la entrega y, si no puede, indica el motivo.
+    \end{frame}
+
+    \begin{frame}{Clasificación de hipotermia - Ejercicio}
+        Trabajas en una app para equipos de rescate en montaña. El protocolo clínico distingue tres 
+        niveles de hipotermia según la temperatura corporal central: leve (entre 32\,°C y 35\,°C), 
+        moderada (entre 28\,°C y 32\,°C) y severa (bajo 28\,°C). El equipo médico te indica que, además, 
+        si el paciente ha estado expuesto al frío por más de 3 horas, su caso debe marcarse como de 
+        mayor urgencia dentro de la categoría que le corresponda.
+
+        A partir de la temperatura corporal y el tiempo de exposición de un paciente, escribe un 
+        programa que entregue un mensaje con su nivel de hipotermia y su nivel de urgencia.
+    \end{frame}
+
+    
+    % \begin{frame}[fragile,t]{\mintinline{python}{if - else} - Ejemplos}
+    %     1. Ingreso al campo de instrucción
+    %     \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+    %         edad = 17
+    %         if edad >= 18:
+    %             print("El cadete puede ingresar al campo ...")
+    %         else:
+    %             print("El cadete no puede ingresar al campo ...")
+    %     \end{minted}
+    %     2. Aprobación de prueba física
+    %     \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+    %         puntaje_fisico = 58
+    %         if puntaje_fisico >= 60:
+    %             print("El soldado aprobo la prueba fisica")
+    %         else:
+    %             print("El soldado no aprobo la prueba fisica")
+    %     \end{minted}
+    % \end{frame}
+
+    % \begin{frame}[fragile,t]{\mintinline{python}{if - else} - Actividad}
+    %     Reconoce las variables y construye las condiciones
+    %     \begin{itemize}
+    %         \item Un militar llego puntual si su hora de llegada es menor o igual a 6. Si llega después, se considera tarde
+    %         \item Si la cantidad de munición es mayor que 0, la unidad puede iniciar el entrenamiento. Si no hay munición, el entrenamiento no puede comenzar
+    %         \item Si un recluta asistió a las 5 sesiones programadas, puede rendir la evaluación final. Si no asistió a todas, no puede rendirla
+    %         \item Si la distancia entre dos unidades es mayor o igual a 100 metros, se considera segura. Si es menor, se debe emitir una advertencia.
+    %     \end{itemize}
+    % \end{frame}
+
+    
+    % \begin{frame}[fragile,t]{Errores comunes en condicionales}
+    %     \begin{itemize}
+    %         \item Confundir \mintinline{python}{=} con \mintinline{python}{==}
+    %     \end{itemize}
+    % \end{frame}
+
+    % \begin{frame}[fragile,t]{Errores comunes en condicionales}
+    %     Correcto:
+    %     \begin{minted}[xleftmargin=-2cm, frameleftmargin=0pt]{python}
+    %         if edad == 18:
+    %     \end{minted}
+    %     Incorrecto:
+    %     \begin{minted}[xleftmargin=-2cm, frameleftmargin=0pt]{python}
+    %         if edad = 18:
+    %     \end{minted}
+    % \end{frame}
+
+    % \begin{frame}[fragile,t]{Errores comunes en condicionales}
+    %     \begin{itemize}
+    %         \item Confundir \mintinline{python}{=} con \mintinline{python}{==}
+    %         \item Mala indentación
+    %     \end{itemize}
+    % \end{frame}
+
+    % \begin{frame}[fragile,t]{Errores comunes en condicionales}
+    %     \begin{minted}[xleftmargin=-2cm, frameleftmargin=0pt]{python}
+    %         if edad >= 18:
+    %         print("Mayor de edad")
+    %     \end{minted}
+    % \end{frame}
+
+    % \begin{frame}[fragile,t][fragile,t]{Errores comunes en condicionales}
+    %     \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+    %         nota = 6.7
+    %         if nota >= 5:
+    %             print("Aprobado")
+    %         elif nota >= 6.5:
+    %             print("Excelente")
+    %     \end{minted}
+    % \end{frame}
+
+    \begin{frame}{Resumen}
+        \begin{itemize}
+            \item \mintinline{python}{if} ejecuta un bloque solo cuando una
+                  condición es \mintinline{python}{True}.
+            \item \mintinline{python}{and} $\rightarrow$ \textbf{todas} las
+                  condiciones deben cumplirse.
+            \item \mintinline{python}{or} $\rightarrow$ \textbf{al menos una}
+                  condición debe cumplirse.
+            \item \mintinline{python}{not} $\rightarrow$ \textbf{invierte} el
+                  valor de verdad.
+            \item Estos operadores modelan decisiones reales: alertas
+                  médicas, sísmicas, estructurales y de comportamiento
+                  animal.
+        \end{itemize}
+    \end{frame}
+    
+\end{document}
