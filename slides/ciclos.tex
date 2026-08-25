@@ -1,0 +1,529 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I, the copyright holder of this work, release this work into the
+%% public domain. This applies worldwide. In some countries this may
+%% not be legally possible; if so: I grant anyone the right to use
+%% this work for any purpose, without any conditions, unless such
+%% conditions are required by law.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetheme[faculty=ped]{fibeamer}
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+%%
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%% These macros specify information about the presentation
+\title{Ciclos e iteración (for, while, range)} %% that will be typeset on the
+\subtitle{Semestre I-2026} %% title page.
+\author{Profesora: Andreina Cota Vidaurre}
+%% These additional packages are used within the document:
+\usepackage{ragged2e}  % `\justifying` text
+\usepackage{booktabs}  % Tables
+\usepackage{tabularx}
+\usepackage{tikz}      % Diagrams
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{positioning, arrows.meta, shadows.blur, shapes.geometric}
+\usepackage{amsmath, amssymb}
+\usepackage{url}       % `\url`s
+\usepackage{listings}  % Code listings
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+% \usepackage{adjustbox}
+
+
+% Definicion de pseudocodigo en espaniol
+\lstdefinelanguage{PseudocodigoES}{
+    morekeywords={INICIO,FIN,PARA,HACER,SI,ENTONCES,FIN_SI,FIN_PARA,IMPRIMIR},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+% Definicion de pseudocodigo en ingles
+\lstdefinelanguage{PseudocodeEN}{
+    morekeywords={BEGIN,END,FOR,DO,IF,THEN,END_IF,END_FOR,PRINT},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    gobble=4,
+    resetmargins=true,
+    aboveskip=0pt,
+    belowskip=0pt
+}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    breaklines=true,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    gobble=4,
+    resetmargins=true,
+    emph={print,input,int,float,str,bool,len,range},
+    emphstyle=\bfseries
+}
+
+\lstset{style=pythonstyle}
+
+% Estilos del diagrama
+\tikzstyle{iniciofin} = [
+    ellipse,
+    minimum width=2.5cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=blue!25
+]
+
+\tikzstyle{proceso} = [
+    rectangle,
+    rounded corners,
+    minimum width=3cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=cyan!20
+]
+
+\tikzstyle{decision} = [
+    diamond,
+    aspect=2,
+    text centered,
+    draw=black,
+    fill=yellow!35
+]
+
+\tikzstyle{flecha} = [
+    thick,
+    ->,
+    >=Stealth
+]
+
+% \definecolor{green_python}{HTML}{52A736}
+
+% \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+% \begin{darkframes}
+
+    \begin{frame}{Contenido}
+        \begin{itemize}
+            \item Introducción
+            \item \mintinline{python}{range()}
+            \item El ciclo \mintinline{python}{for}
+            \item El ciclo \mintinline{python}{while}
+            \item \mintinline{python}{for} vs \mintinline{python}{while}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Qué es un ciclo (loop)?}
+        \begin{itemize}
+            \item Un ciclo (loop) es una estructura que permite repetir instrucciones automáticamente
+            \item Evita escribir el mismo código muchas veces
+            \item Evita tener que realizar la repetición manual
+            \item Todo ciclo o bucle, sin excepción, responde a estas dos preguntas:
+            \begin{itemize}
+                \item ¿Qué se repite? $\rightarrow$ el bloque de instrucciones dentro del bucle
+                \item ¿Cuándo se detiene? $\rightarrow$ la condición de salida
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Qué es una iteración?}
+        \begin{itemize}
+            \item Una iteración es cada repetición del ciclo
+            \item Si un ciclo se ejecuta 5 veces $\rightarrow$ tiene 5 iteraciones
+        \end{itemize}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            for i in range(3):
+                print("Saludo")
+        \end{minted}
+        \begin{itemize}
+            \item Iteración 1 $\rightarrow$ imprime
+            \item Iteración 2 $\rightarrow$ imprime
+            \item Iteración 3 $\rightarrow$ imprime
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Para qué se usan los ciclos?}
+        \begin{itemize}
+            \item Repetir tareas:
+            \begin{itemize}
+                \item Conteo de soldados
+                \item Simulación de rondas de vigilancia
+                \item Procesos paso a paso
+            \end{itemize}
+            \item Automatización
+            \item Control de procesos
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Las tres herramientas}
+        \centering
+        \begin{tabular}{|c|c|}
+            \hline
+            Herramienta & ¿Qué hace? \\
+            \hline
+            \mintinline{python}{for} & Recorre una colección elemento por elemento \\
+            \hline
+            \mintinline{python}{while} & Repite mientras una condición sea verdadera \\
+            \hline
+            \mintinline{python}{range} & Genera secuencias de números para iterar \\
+            \hline
+        \end{tabular}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Tipos de ciclos en Python}
+        \begin{itemize}
+            \item \mintinline{python}{for} $\rightarrow$ cuando sabemos cuántas veces repetir
+            \item \mintinline{python}{while} $\rightarrow$ cuando depende de una condición
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{\mintinline{python}{range()}}
+        \begin{itemize}
+            \item No es un bucle, es un generador de secuencias de \textbf{números enteros}
+            \item No crea una lista en memoria
+            \item Es un objeto perezoso (lazy object). No crea todos los números de golpe, los produce uno a uno conforme el ciclo los va pidiendo
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{range()}}
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            Caso de uso & Ejemplo código & Salida \\
+            \hline
+            Básico & \mintinline{python}{range(6)} & \mintinline{python}{0, 1, 2, 3, 4, 5} \\
+            \hline
+            Start/Stop & \mintinline{python}{range(2, 6)} & \mintinline{python}{2, 3, 4, 5} \\
+            \hline
+            Step & \mintinline{python}{range(0, 6, 2)} & \mintinline{python}{0, 2, 4} \\
+            \hline
+            Negative Step & \mintinline{python}{range(6, 0, -1)} & \mintinline{python}{6, 5, 4, 3, 2, 1} \\
+            \hline
+        \end{tabular}
+        
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            range(stop)        # empieza en 0, termina antes de stop
+            range(start, stop) # empieza en start, termina antes de stop
+            range(start, stop, step) # similar, pero salta de step en step 
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{\mintinline{python}{range()}}
+        \begin{itemize}
+            \item La notación matemática para el \mintinline{python}{range()} es: \(\text{range}(a,b,c)=\{a+k\cdot c\mid k\in \mathbb{N}_{0}\text{\ y\ }a+k\cdot c\in \text{intervalo\ }[a,b)\}\)
+            \item Donde los parámetros corresponden a:
+            \begin{itemize}
+                \item \(a\) (start): Valor inicial (por defecto 0 si solo se da un parámetro).
+                \item \(b\) (stop): Límite de parada (exclusivo, es decir, abierto por la derecha \([a, b)\)).
+                \item \(c\) (step): Incremento o paso (por defecto 1).
+                \item \(k\): Índice entero de la iteración que comienza en 0 (\(k = 0, 1, 2, \dots\)).
+            \end{itemize}
+        \end{itemize}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            range(5)  →  0, 1, 2, 3, 4   # el 5 NO aparece 
+        \end{minted}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            # Generar secuencias del 1 al 10
+            range(10):      # ← llega solo hasta el 9
+        \end{minted}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            # Generar secuencias del 1 al 10
+            range(1, 11):      # ← correcto
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Actividad 1: completar el código}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            # 1. Generar secuencias del 0 al 8
+            range(_____)  # ← 0, 1, 2, 3, 4, 5, 6, 7, 8
+            # 2. Generar secuencias del 4 al 8
+            range(_____)  # ← 4, 5, 6, 7, 8
+            # 3. Generar secuencias del 2 al 8, con salto de 2
+            range(_____)  # ← 2, 4, 6, 8
+            # 4. Generar secuencias del 8 al 2, en orden decreciente
+            range(_____)  # ← 8, 7, 6, 5, 4, 3, 2
+            # 5. Generar secuencias del 8 al 2, con salto de 2
+            range(_____)  # ← 8, 6, 4, 2
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Ciclo \mintinline{python}{for}}
+        \begin{itemize}
+            \item Itera sobre una secuencias u otros objetos iterables
+            \item El código a repetir debe estar indentado
+            \item Recorre cada elemento, uno por uno y ejecuta el bloque de código con él
+            \item Maneja el inicio, el conteo y el final
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Estructura de \mintinline{python}{for}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            for elemento in secuencia:
+                instrucciones
+        \end{minted}
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            for variable in range(...):
+                instrucciones
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejemplos usando \mintinline{python}{for}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            for i in range(7):
+                print(i)   # ← 0, 1, 2, 3, 4, 5, 6
+        \end{minted}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            for i in range(2, 10):
+                print(i)   # ← 2, 3, 4, 5, 6, 7, 8, 9
+        \end{minted}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            for i in range(10, 1, -2):
+                print(i)   # ← 10, 8, 6, 4, 2
+        \end{minted}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            for i in "hello":
+                print(i)   # ← h, e, l, l, o
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejemplos usando \mintinline{python}{for}}
+        Contar estudiantes
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            for i in range(1, 6):
+                print("Estudiante", i)
+        \end{minted}
+        Simular entregas de exámenes
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            for i in range(3):
+                print("Examen entregado")
+        \end{minted}
+        Cuenta regresiva
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            for i in range(5, 0, -1):
+                print("Cuenta:", i)
+            print("Terminó la cuenta regresiva")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Actividad 2: Completar el código}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            # Imprimir 10 veces el texto: Universidad Católica de Chile
+            for i in range(____):
+                print(________)
+
+            # Sumar los números del 1 al 10 e imprimir el resultado
+            suma = 0
+            for i in range(_____):
+                suma = suma + _________
+            print(_________)
+
+            # Sumar los 4 primeros números pares, sin incluir el 0, e imprimir el resultado
+            resultado = 0
+            for numero_par in range(_____):
+                resultado = resultado + _________
+            print(__________)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Aspectos importantes de \mintinline{python}{for}}
+        \begin{itemize}
+            \item Número de iteraciones conocido
+            \item Variable de control cambia automáticamente
+            \item En Python, todo lo que sea iterable puede usarse con \mintinline{python}{for}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Ciclo \mintinline{python}{while}}
+        \begin{itemize}
+            \item Repite un bloque de código \textbf{mientras una condición sea verdadera}
+            \item No se sabe de antemano cuántas veces va a ejecutarse
+            \item El ciclo \mintinline{python}{while} necesita ser controlado
+            \item Es necesario crear la condición que se evalúa en el ciclo
+            \item La condición tiene que ser modificada dentro del ciclo
+            \item \textbf{Si la condición no cambia se genera un ciclo infinito}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{\mintinline{python}{while}: ¿Cómo funciona?}
+        El \mintinline{python}{while} sigue siempre este ciclo:
+        \begin{enumerate}
+            \item Evalúa la condición $\rightarrow$ ¿es verdadera?
+            \item Sí $\rightarrow$ ejecuta las instrucciones $\rightarrow$ vuelve al paso 1
+            \item No $\rightarrow$ el ciclo termina
+        \end{enumerate}
+        condición verdadera $\rightarrow$ ejecutar $\rightarrow$ volver a evaluar
+
+        condición falsa     $\rightarrow$ salir del bucle
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Estructura de \mintinline{python}{while}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            while condicion:
+                instrucciones
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejemplos con \mintinline{python}{while}}
+        Contar
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            contador = 0
+            while contador < 5:
+                print(contador)
+                contador += 1
+        \end{minted}
+        Esperar orden
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            orden = "no"
+            while orden != "si":
+                print("Esperando orden...")
+                orden = input("Ingrese orden (si/no): ")
+        \end{minted}
+        Nivel de bencina
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            bencina = 100
+            while bencina > 0:
+                print("Manejando 10 km")
+                bencina = bencina - 20
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Actividad 3: completar el código}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            # imprimir el contador mientras contador sea mayor a 4
+            contador = 10
+            while ____________:
+                print(contador)
+                contador = contador - 1
+            
+            # imprimir: "password invalido" mientras el password ingresado sea distinto de "passwd123" 
+            password = input()
+            while _____________:
+                print("password invalido")
+                password = input("Ingrese el password: ")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Aspectos importantes de \mintinline{python}{while}}
+        \begin{itemize}
+            \item Puede ser infinito si no se controla
+            \item Depende de una condición
+            \item Requiere actualizar la condición o las variables manualmente
+            \item \textbf{Debe tener al menos una línea que acerque al programa a la condición de salida}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Ejemplos con \mintinline{python}{while}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            # Ciclo infinito — contador nunca cambia
+            contador = 0
+            while contador < 5:
+                print("hola")      # ← contador sigue siendo 0 para siempre
+        \end{minted}
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            # Correcto — contador avanza cada vuelta
+            contador = 0
+            while contador < 5:
+                print("hola")
+                contador += 1      # ← esto es lo que permite que termine
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Diferencias \mintinline{python}{for} vs \mintinline{python}{while}}
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+             & \mintinline{python}{for} & \mintinline{python}{while} \\
+            \hline
+            Pregunta qué responde & ¿Qué recorro? & ¿Cuándo paro? \\
+            \hline
+            Se detiene cuando .. & La colección se agota & La condición es falsa \\
+            \hline
+            ¿Gestionas el contador? & No - automático & Sí - manual \\
+            \hline
+            Riesgo principal & Casi ninguno & Bucle infinito \\
+            \hline
+        \end{tabular}
+        \mintinline{python}{for} $\rightarrow$ sabes \textbf{qué} estás recorriendo, \mintinline{python}{while} $\rightarrow$ sabes \textbf{cuándo} quieres parar 
+    \end{frame}
+
+    \begin{frame}{Cuándo usar cada uno?}
+        \begin{itemize}
+            \item Usar \mintinline{python}{for} cuando:
+            \begin{itemize}
+                \item Sabes cuántas veces repetir
+                \item Ej: número de estudiantes, exámenes, pasos
+            \end{itemize}
+            \item Usar \mintinline{python}{while} cuando:
+            \begin{itemize}
+                \item No sabes cuántas veces
+                \item Depende de una condición
+                \item Ej: esperar orden, monitorear estado
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Mini actividad}
+        \begin{itemize}
+            \item Repetir 10 veces el saludo '¡Hola, estudiante N° ...! $\rightarrow$ Usa \mintinline{python}{for}
+            \item Valida la contraseña ingresada; la contraseña tiene que ser igual a 'puc1234' $\rightarrow$. Usa \mintinline{python}{while}
+            \item Cuenta regresiva de lanzamiento: Desde 10 hasta 0 $\rightarrow$ Usar \mintinline{python}{for}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Resumen}
+        \begin{itemize}
+            \item Un ciclo permite automatizar repeticiones
+            \item \mintinline{python}{for} $\rightarrow$ controlado
+            \item \mintinline{python}{while} $\rightarrow$ condicionado
+            \item Ambos son fundamentales para construir algoritmos
+        \end{itemize}
+    \end{frame}
+\end{document}
