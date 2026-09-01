@@ -1,0 +1,329 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I, the copyright holder of this work, release this work into the
+%% public domain. This applies worldwide. In some countries this may
+%% not be legally possible; if so: I grant anyone the right to use
+%% this work for any purpose, without any conditions, unless such
+%% conditions are required by law.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetheme[faculty=ped]{fibeamer}
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+%%
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%% These macros specify information about the presentation
+\title{Actividad refuerzo: for, while, range} %% that will be typeset on the
+\subtitle{Semestre II-2026} %% title page.
+\author{Profesora: Andreina Cota Vidaurre}
+%% These additional packages are used within the document:
+\usepackage{ragged2e}  % `\justifying` text
+\usepackage{booktabs}  % Tables
+\usepackage{tabularx}
+\usepackage{tikz}      % Diagrams
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{positioning, arrows.meta, shadows.blur, shapes.geometric}
+\usepackage{amsmath, amssymb}
+\usepackage{url}       % `\url`s
+\usepackage{listings}  % Code listings
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+% \usepackage{adjustbox}
+
+
+% Definicion de pseudocodigo en espaniol
+\lstdefinelanguage{PseudocodigoES}{
+    morekeywords={INICIO,FIN,PARA,HACER,SI,ENTONCES,FIN_SI,FIN_PARA,IMPRIMIR},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+% Definicion de pseudocodigo en ingles
+\lstdefinelanguage{PseudocodeEN}{
+    morekeywords={BEGIN,END,FOR,DO,IF,THEN,END_IF,END_FOR,PRINT},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    gobble=4,
+    resetmargins=true,
+    aboveskip=0pt,
+    belowskip=0pt
+}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    breaklines=true,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    gobble=4,
+    resetmargins=true,
+    emph={print,input,int,float,str,bool,len,range},
+    emphstyle=\bfseries
+}
+
+\lstset{style=pythonstyle}
+
+% Estilos del diagrama
+\tikzstyle{iniciofin} = [
+    ellipse,
+    minimum width=2.5cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=blue!25
+]
+
+\tikzstyle{proceso} = [
+    rectangle,
+    rounded corners,
+    minimum width=3cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=cyan!20
+]
+
+\tikzstyle{decision} = [
+    diamond,
+    aspect=2,
+    text centered,
+    draw=black,
+    fill=yellow!35
+]
+
+\tikzstyle{flecha} = [
+    thick,
+    ->,
+    >=Stealth
+]
+
+% \definecolor{green_python}{HTML}{52A736}
+
+% \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+% \begin{darkframes}
+
+    \begin{frame}[fragile, t]{\mintinline{python}{for, while, range()}}
+        \begin{itemize}
+            \item \mintinline{python}{for + if}: Recorre el elemento por elemento y, en cada iteración, verifica si se cumple la condición. Si se cumple, ejecuta el bloque interno.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            for item in secuencia:
+                if condicion:
+                    instrucciones_if
+                instrucciones_for
+            \end{minted}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{\mintinline{python}{for, while, range()}}
+        \begin{itemize}
+            \item \mintinline{python}{while + if}: Repite el bloque mientras la condición principal sea verdadera y, en cada vuelta, verifica una condición adicional. Son dos condiciones independientes: una controla cuándo ocurre el ciclo, la otra decide qué hace en cada vuelta.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            while condicion_while:
+                if condicion_if:
+                    instrucciones_if
+                instrucciones_while
+            \end{minted}
+            \item \mintinline{python}{Ciclos anidados}: Un ciclo dentro de otro
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            for i in range(3):
+              for j in range(3):
+                print(i, j)
+            \end{minted}
+            \textcolor{blue}{El ciclo interno se ejecuta completo en cada iteración del ciclo externo}
+        \end{itemize}
+    \end{frame}
+    
+    \begin{frame}[fragile, t]{Completar el código \mintinline{python}{for, range()} y condicionales}
+        En cada ejercicio encontrarás código incompleto. Tu tarea es completar los espacios en blanco para que el programa funcione correctamente.
+        \begin{itemize}
+            \item Completa el código para imprimir una cuenta regresiva del 10 al 1. Cuando llegue a 5, además del número, imprime '¡Mitad del camino!'. Al terminar, imprime '¡Despegue del misil!'
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+                for i in range(________, ________, ________):
+                    print(i)
+                    if i ________ 5:
+                        print('¡Mitad del camino!')
+                
+                print('¡Despegue del misil!')
+            \end{minted}
+            \textcolor{blue}{Salida esperada}: 10 9 8 7 6 5 !Mitad del camino! 4 3 2 1 !Despegue de misil!
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Completar el código \mintinline{python}{for, range()} y condicionales}
+        \begin{itemize}
+            \item Un soldado hace repeticiones del 1 al 20. Completa el código para clasificar cada repetición: del 1 al 7, 'Calentamiento'; del 8 al 14, 'Esfuerzo'; del 15 al 20, 'Zona máxima'.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+                for rep in range(1, 21):
+                    if rep ________ 7:
+                        zona = 'Calentamiento'
+                    elif rep ________ 14:
+                        zona = 'Esfuerzo'
+                    ________:
+                        zona = 'Zona maxima'
+                    print(f'Repeticion {rep}: {zona}')
+            \end{minted}
+            \textcolor{blue}{Salida esperada}: Repetición 1: Calentamiento  ...  Repetición 8: Esfuerzo  ...  Repetición 15: Zona máxima  ...
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Completar el código \mintinline{python}{for, range()} y condicionales}
+        \begin{itemize}
+            \item Completa el código para imprimir solo los múltiplos de 7 entre 1 y 100. Cada número representa una ronda de munición fabricada en serie.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+                for n in range(1, 101):
+                    if n ________ 7 ________ 0:
+                        print(n)
+            \end{minted}
+            \textcolor{blue}{Salida esperada}: 7   14   21   28   35   42   49   56   63   70   77   84   91   98
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Crear código \mintinline{python}{for, range()} y condicionales}
+        \begin{itemize}
+            \item Un soldado completa 10 series de ejercicios. En cada serie se gana puntos iguales al número de la serie multiplicado por 5. Si los puntos de esa serie superan los 30, imprime también '¡Serie destacada!'. Al final, imprime el puntaje total acumulado.
+            
+            \textcolor{blue}{Salida esperada}: Serie 1: 5 pts  ...  Serie 7: 35 pts  ¡Serie destacada!  ...  Total: 275 pts
+            
+            \begin{itemize}
+                \item ¿Cómo calculo los puntos de cada serie dentro del ciclo?
+                \item ¿Dónde declaro el acumulador de puntaje total — dentro o fuera del ciclo?
+                \item ¿La condición de 'serie destacada' va antes o después de sumar al total?
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Crear código \mintinline{python}{for, range()} y condicionales}
+        \begin{itemize}
+            \item Hay 50 soldados numerados del 1 al 50. Son 'aptos para combate' los que cumplen ambas condiciones: su número es impar y múltiplo de 3. Escribe un programa que cuente cuántos cumplen la condición e imprima sus números.
+        
+            \textcolor{blue}{Salida esperada}: 3   9   15   21   27   33   39   45  →  Total aptos: 8
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Crear código \mintinline{python}{while} y condicionales}
+        \begin{itemize}
+            \item Un vehículo blindado parte con 100 litros de combustible y consume 8 litros por kilómetro. Completa el código para simular el avance hasta que se quede sin combustible. Si el combustible baja por debajo de 25 litros, imprime una alerta.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+                combustible = 100
+                km = 0
+                while combustible ________ 0:
+                    km ________ 1
+                    combustible ________ 8
+                    if combustible ________ 25:
+                        print(f'km {km}: Alerta — {combustible}L restantes')
+                    else:
+                        print(f'km {km}: {combustible}L')
+                print(f'El vehículo avanzó {km} km')
+            \end{minted}
+            \textcolor{blue}{SE:} km 1: 92L .. km 10: 20L (Alerta)  ... |  El vehículo avanzó 13 km
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Crear código \mintinline{python}{while} y condicionales}
+        \begin{itemize}
+            \item Un soldado acumula distancia al correr. Empieza en 0 km y suma 3 km por vuelta. Si la distancia es un múltiplo de 9, imprime '¡Punto de hidratación!'. El entrenamiento termina cuando se superan los 30 km.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+                distancia = 0
+                while distancia ________ 30:
+                    distancia ________ 3
+                    if distancia ________ 9 ________ 0:
+                        print(f'{distancia} km —¡Punto de hidratación!')
+                    else:
+                        print(f'{distancia} km')
+                print('Entrenamiento finalizado')
+            \end{minted}
+            \textcolor{blue}{Salida esperada:} 3km  6km  9km ¡Punto de hidratación!  12km  15km  18km  ...  33km | Entrenamiento finalizado
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Crear código \mintinline{python}{while} y condicionales}
+        \begin{itemize}
+            \item Un radar mide la distancia a un objeto que se acerca. El objeto empieza a 500 metros y se acerca a 45 metros por segundo. Escribe un programa con \mintinline{python}{while} que simule el acercamiento. Cuando la distancia sea menor a 200 metros, imprime '¡ALERTA ROJA!'. Cuando llegue a 0 o menos, imprime '¡IMPACTO!' y detén el ciclo. Informa el tiempo total en segundos.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ciclos anidados}
+        \begin{itemize}
+            \item Completa el código para imprimir todas las coordenadas de una cuadrícula 4×4 (filas 1–4, columnas 1–4), como si fuera un mapa de operaciones.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+                for fila in range(________, ________):
+                    for columna in range(________, ________):
+                        print(f'Sector ({fila}, {columna})')
+            \end{minted}
+            \textcolor{blue}{Salida esperada}: Sector (1,1)  Sector (1,2)  Sector (1,3)  Sector (1,4)  Sector (2,1) ...  Sector (4,4)
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ciclos anidados}
+        \begin{itemize}
+            \item Completa el código para imprimir cuántas repeticiones realiza un soldado en cada ejercicio de cada ronda. Las repeticiones son: número de ronda × número de ejercicio.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+                for ronda in range(1, 4):         # 3 rondas
+                    for ejercicio in range(1, 5): # 4 ejs por ronda
+                        reps = ________ * ________
+                        print(f'Ronda {ronda} - \ 
+                                Ejercicio {ejercicio}: {reps} reps')
+            \end{minted}
+            \textcolor{blue}{Salida esperada}: Ronda 1 - Ejercicio 1: 1 reps  ...  Ronda 1 - Ejercicio 4: 4 reps  |  Ronda 2 - Ejercicio 1: 2 reps  ...
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ciclos anidados}
+        \begin{itemize}
+            \item Escribe un programa que imprima una pirámide de N filas (N lo define el usuario). En cada fila imprime el número de asteriscos igual al número de la fila. Usa ciclos anidados: el externo controla las filas; el interno imprime los asteriscos.
+            
+            \textcolor{blue}{Salida esperada}: *        (fila 1)  |  **  (fila 2)  |  ***  |  ****  |  *****  (fila 5)
+            \item Imprime las tablas de multiplicar del 2 al 5 (una por una). Para cada tabla muestra los productos del 1 al 10.
+            
+            \textcolor{blue}{Salida esperada}: $2 \times 1 = 2  ...  2 \times 10 = 20$  | $3 \times 1 = 3  |  3 \times 7 = 21$ ... 
+        \end{itemize}
+    \end{frame}
+
+\end{document}
