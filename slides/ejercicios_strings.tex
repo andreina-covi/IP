@@ -1,0 +1,257 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I, the copyright holder of this work, release this work into the
+%% public domain. This applies worldwide. In some countries this may
+%% not be legally possible; if so: I grant anyone the right to use
+%% this work for any purpose, without any conditions, unless such
+%% conditions are required by law.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetheme[faculty=ped]{fibeamer}
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+%%
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%% These macros specify information about the presentation
+\title{String} %% that will be typeset on the
+\subtitle{Semestre II-2026} %% title page.
+\author{Profesora: Andreina Cota Vidaurre}
+%% These additional packages are used within the document:
+\usepackage{ragged2e}  % `\justifying` text
+\usepackage{booktabs}  % Tables
+\usepackage{tabularx}
+\usepackage{tikz}      % Diagrams
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{positioning, arrows.meta, shadows.blur, shapes.geometric}
+\usepackage{amsmath, amssymb}
+\usepackage{url}       % `\url`s
+\usepackage{listings}  % Code listings
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+% \usepackage{adjustbox}
+
+
+% Definicion de pseudocodigo en espaniol
+\lstdefinelanguage{PseudocodigoES}{
+    morekeywords={INICIO,FIN,PARA,HACER,SI,ENTONCES,FIN_SI,FIN_PARA,IMPRIMIR},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+% Definicion de pseudocodigo en ingles
+\lstdefinelanguage{PseudocodeEN}{
+    morekeywords={BEGIN,END,FOR,DO,IF,THEN,END_IF,END_FOR,PRINT},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    gobble=4,
+    resetmargins=true,
+    aboveskip=0pt,
+    belowskip=0pt
+}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    breaklines=true,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    gobble=4,
+    resetmargins=true,
+    emph={print,input,int,float,str,bool,len,range},
+    emphstyle=\bfseries
+}
+
+\lstset{style=pythonstyle}
+
+% Estilos del diagrama
+\tikzstyle{iniciofin} = [
+    ellipse,
+    minimum width=2.5cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=blue!25
+]
+
+\tikzstyle{proceso} = [
+    rectangle,
+    rounded corners,
+    minimum width=3cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=cyan!20
+]
+
+\tikzstyle{decision} = [
+    diamond,
+    aspect=2,
+    text centered,
+    draw=black,
+    fill=yellow!35
+]
+
+\tikzstyle{flecha} = [
+    thick,
+    ->,
+    >=Stealth
+]
+
+% \definecolor{green_python}{HTML}{52A736}
+
+% \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+% \begin{darkframes}
+
+    \begin{frame}[fragile, t]{Nivel 1 -  Reconocimiento y acceso a caracteres}
+        \begin{enumerate}
+            \item Un soldado tiene el siguiente identificador \mintinline{python}{"BOA-1548-A"}. Mostrar:
+            \begin{itemize}
+                \item Cantidad de caracteres
+                \item Primer caracter
+                \item Último caracter
+                \item Los tres primeros caracteres
+                \item Los ultimos dos caracteres
+            \end{itemize}
+            \item Dado el código \mintinline{python}{"CAP-PEDRO-2026"}. Extraer rango militar, nombre y gestión.
+            \item Dada la coordenada: \mintinline{python}{"X:153-Y:892"}. Extraer valor de X, valor de Y.
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 2 -  Búsqueda y validación}
+        \begin{enumerate}
+            \item Solicitar un comando y verificar si contiene: \mintinline{python}{"AUTH"}. Si contiene la palabra, el comando es autorizado.
+            \item Dado el siguiente mensaje: \mintinline{python}{"Unidad Delta reporta objetivo encontrado"}. Determinar si existe la palabra "objetivo" e indicar en qué posición comienza.
+            \item Dado el mensaje: \mintinline{python}{"ALERTA ALERTA zona restringida ALERTA"}. Contar cuántas veces aparece "ALERTA".
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 3 - Conversión y validación}
+        \begin{enumerate}
+            \item Solicitar el nombre de un estudiante. Luego, mostrar el nombre en mayúsculas y también en minúsculas.
+            \item Solicitar un código de acceso y determinar si contiene solo números, solo letras o una mezcla.
+            \item Validar la contraseña. Una contraseña es válida si tiene al menos 8 caracteres y contiene al menos una mayúscula
+            y al menos un número.
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 4 - Limpieza y transformación}
+        \begin{itemize}
+            \item Eliminar espacios innecesarios en el siguiente reporte: \mintinline{python}{"      Unidad lista para despliegue      "}.
+            \item Dado el siguiente mensaje: \mintinline{python}{"Operacion Condor iniciada"}. Reemplazar "Condor" por "Omega".
+            \item Censurar información. Dado el siguiente mensaje: \mintinline{python}{"El acceso sera por la puerta norte"}. Reemplazar \mintinline{python}{"puerta norte"} por \mintinline{python}{"*******"}.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 5 - Reemplazar}
+        \begin{itemize}
+            \item En el siguiente mensaje: \mintinline{python}{"ERROR sector 1 ERROR sector 2 ERROR sector 3"}. Reemplazar solo el primer "ERROR" por "CORREGIDO". El resultado tiene que ser el siguiente: \mintinline{python}{"CORREGIDO sector 1 ERROR sector 2 ERROR sector 3"}.
+            \item Sobre el mismo mensaje original, reemplazar solo el segundo "ERROR". El resultado tiene que ser el siguiente: \mintinline{python}{"ERROR sector 1 CORREGIDO sector 2 ERROR sector 3"}.
+            \item Reemplazar solo la última ocurrencia de "ALERTA" por "BASE" en el siguiente mensaje: \mintinline{python}{"ALERTA base norte ALERTA base sur ALERTA central"}.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 6 - Análisis de mensajes}
+        \begin{itemize}
+            \item Pedir un texto como entrada y mostrar la cantidad de vocales y la cantidad de consonantes que contiene.
+            \item Verificar si un código es palíndromo. Ejemplo: \mintinline{python}{"RADAR"} o \mintinline{python}{"1221"}.
+            \item Modificar el formato de los nombres de los estudiantes. Ejemplo: \mintinline{python}{"pedro perez"} por \mintinline{python}{"Pedro Perez"}.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 7 - Problemas integradores}
+        \begin{itemize}
+            \item Se pide ocultar el código confidencial. Sea el texto \mintinline{python}{"4587123498765123"} modificarlo por \mintinline{python}{"************5123"}.
+            \item Generar un identificador para un estudiante. Dado las siguientes variables: 
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            nombre = "Carlos"
+            apellido = "Mendoza"
+            curso = 1001
+            \end{minted}
+            Generar la siguiente salida: \mintinline{python}{"cmendoza_1001"}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Nivel 7 - Problema integradores}
+        \begin{itemize}
+            \item Solicitar un reporte militar y encontrar la palabra más larga.
+            \item Dado el texto \mintinline{python}{"BASE-NORTE:SOLICITA-REFUERZO"}. Extraer la base y el mensaje.
+            \item Dado el texto \mintinline{python}{"NORTE-145-ESTE-932"}. Extraer las coordenadas de radar.
+            \item Se pide comprimir el siguiente texto \mintinline{python}{"aaabbcccc"} por \mintinline{python}{"a3b2c4"}.
+        \end{itemize}
+    \end{frame}    
+
+    % \begin{frame}[fragile,t]{Nivel 8 - Concatenación y repetición}
+    %     Dado un valor entero positivo N, construir una pirámide utilizando el caracter \mintinline{python}{*}. La pirámide debe tener una altura igual a N. Cada nivel de la pirámide debe estar centrado utilizando espacios en blanco.
+
+    %     Además, cada nivel debe contener una cantidad impar de asteriscos para conservar la forma de la pirámide:
+    %     \begin{itemize}
+    %         \item El primer nivel contiene 1 asterisco
+    %         \item El segundo nivel contiene 3 asteriscos
+    %         \item El tercer nivel contiene 5 asteriscos
+    %         \item Y así sucesivamente
+    %     \end{itemize}
+    % \end{frame}
+
+    % \begin{frame}[fragile,t]{Nivel 8 - Concatenación y repetición}
+    %     Por ejemplo:
+    %     \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+    %         N = 5
+    %     \end{minted}
+    %     La salida esperada es: 
+    %     \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+    %             *
+    %            ***
+    %           *****
+    %          *******
+    %         *********
+    %     \end{minted}
+    % \end{frame}
+
+\end{document}
