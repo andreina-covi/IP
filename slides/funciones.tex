@@ -1,0 +1,415 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I, the copyright holder of this work, release this work into the
+%% public domain. This applies worldwide. In some countries this may
+%% not be legally possible; if so: I grant anyone the right to use
+%% this work for any purpose, without any conditions, unless such
+%% conditions are required by law.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+%%
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%% These macros specify information about the presentation
+\title{Funciones propias} %% that will be typeset on the
+\subtitle{Semestre II-2026} %% title page.
+\author{Profesora: Andreina Cota Vidaurre}
+%% These additional packages are used within the document:
+\usepackage{ragged2e}  % `\justifying` text
+\usepackage{booktabs}  % Tables
+\usepackage{tabularx}
+\usepackage{tikz}      % Diagrams
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{positioning, arrows.meta, shadows.blur, shapes.geometric}
+\usepackage{amsmath, amssymb}
+\usepackage{url}       % `\url`s
+\usepackage{listings}  % Code listings
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+\usepackage{pifont}
+% \usepackage{adjustbox}
+
+
+% Definicion de pseudocodigo en espaniol
+\lstdefinelanguage{PseudocodigoES}{
+    morekeywords={INICIO,FIN,PARA,HACER,SI,ENTONCES,FIN_SI,FIN_PARA,IMPRIMIR},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+% Definicion de pseudocodigo en ingles
+\lstdefinelanguage{PseudocodeEN}{
+    morekeywords={BEGIN,END,FOR,DO,IF,THEN,END_IF,END_FOR,PRINT},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    gobble=4,
+    resetmargins=true,
+    aboveskip=0pt,
+    belowskip=0pt
+}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    breaklines=true,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    gobble=4,
+    resetmargins=true,
+    emph={print,input,int,float,str,bool,len,range},
+    emphstyle=\bfseries
+}
+
+\lstset{style=pythonstyle}
+
+% Estilos del diagrama
+\tikzstyle{iniciofin} = [
+    ellipse,
+    minimum width=2.5cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=blue!25
+]
+
+\tikzstyle{proceso} = [
+    rectangle,
+    rounded corners,
+    minimum width=3cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=cyan!20
+]
+
+\tikzstyle{decision} = [
+    diamond,
+    aspect=2,
+    text centered,
+    draw=black,
+    fill=yellow!35
+]
+
+\tikzstyle{flecha} = [
+    thick,
+    ->,
+    >=Stealth
+]
+
+% \definecolor{green_python}{HTML}{52A736}
+
+% \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+% \begin{darkframes}
+
+    \begin{frame}[fragile, t]{Contenido}
+        \begin{itemize}
+            \item ¿Qué es una función?
+            \item Función vs método
+            \item Estructura y sintaxis de una función
+            \item Parámetros y argumentos
+            \item Tipos de funciones
+            \item Ejemplos
+            \item Resumen y aspectos importantes
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Qué es una función}
+        \begin{itemize}
+            \item Una función es un bloque de código reutilizable que realiza una tarea específica. 
+            \item Se define una vez y se puede ejecutar (llamar) cuantas veces sea necesario.
+            \item Tiene un nombre que la identifica
+            \item Puede recibir información de entrada
+            \item Puede devolver un resultado
+            \item Evita repetir código
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Qué es una función}
+        \begin{itemize}
+            \item Una función es como una receta de cocina: se escribe una sola vez, pero cualquier persona puede seguirla en cualquier momento y obtener el mismo resultado.
+            \item Una función define claramente qué información se necesita (parámetros), qué pasos ejecutar (cuerpo) y qué resultado reportar (retorno).
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Funciones vs métodos}
+        \begin{itemize}
+            \item Función:
+            \begin{itemize}
+                \item Es independiente; no pertenece a ningún objeto
+                \item Se llama directamente por su nombre
+                \item Ejemplo: \mintinline{python}{len("hola"), print("UC"), max(3, 7, 1)}
+            \end{itemize}
+            \item Método:
+                \begin{itemize}
+                    \item Es una función que pertenece a un objeto o clase
+                    \item Se llama a través del objeto
+                    \item Ejemplo: \mintinline{python}{"UC".find("C"), "  carrera  ".strip()}
+                \end{itemize}
+        \end{itemize}
+        \textbf{Regla simple:} Todo método es una función, pero no toda función es un método.
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Función vs método}
+        \begin{tabular}{|p{2.5cm}|p{3.3cm}|p{3.3cm}|}
+            \hline
+             & Función & Método \\ \hline
+            ¿A quién pertenece? & A nadie / al programa & A un objeto o clase \\ \hline
+            ¿Cómo se llama? & \mintinline{python}{nombre()} & \mintinline{python}{objeto.nombre()} \\ \hline
+            Contexto & Programación general & Progranación orientada a objetos \\
+            \hline
+        \end{tabular}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Estructura y sintaxis de una función}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            def nombre_funcion(parametro1, parametro2):
+                """Descripción de lo que hace la función"""
+                # Cuerpo de la función
+                resultado = parametro1 + parametro2
+                return resultado
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Estructura y sintaxis de una función}
+        \centering
+        \begin{tabular}{|p{4.5cm}|p{5cm}|}
+            \hline
+            \mintinline{python}{def} & Palabra reservada que indica que se define una función \\ \hline
+            \mintinline{python}{nombre_funcion()} & Identificador único de la función \\ \hline
+            \mintinline{python}{(parametro1, parametro2)} & Datos de entrada que puede recibir \\ \hline
+            \mintinline{python}{"""..."""} & Documentación opcional pero recomendada \\ \hline
+            Cuerpo & Instrucciones que ejecuta la función \\ \hline
+            \mintinline{python}{return} & Valor que devuelve al terminar (opcional) \\ \hline
+        \end{tabular}
+    \end{frame}
+    
+    \begin{frame}[fragile, t]{Parámetros y argumentos}
+        \begin{itemize}
+            \item \textbf{Parámetro}: Variable que se declara en la definición de la función. Es un marcador de posición.
+            \item \textbf{Argumento}: Valor real que se pasa a la función al llamarla.
+        \end{itemize}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}   
+            # "nombre" y "seccion" son PARÁMETROS
+            def presentar_estudiante(nombre, seccion):
+                print(f"El estudiante {nombre} esta en la seccion {seccion}.")
+            
+            # "Juan" y "12" son ARGUMENTOS
+            presentar_estudiante("Juan", 12)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Tipos de parámetros}
+        \begin{itemize}
+            \item Requeridos: deben entregarse siempre
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+                "PUC".find("U")
+            \end{minted}
+            \item Con valor por defecto: tienen un valor si no se entrega ninguno
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+                range(1, 11, 2) # start, stop, step
+            \end{minted}
+            \item Arbitrarios \mintinline{python}{*args}: aceptan cantidad variable de argumentos
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+                print("UC", "Facultad")
+            \end{minted}
+        \end{itemize}
+    \end{frame}
+    
+    \begin{frame}[fragile, t]{Tipos de funciones propias}
+        \begin{itemize}
+            \item Sin parámetros y sin retorno
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            def dar_saludo():
+                print("Bienvenido a la UC")
+            \end{minted}
+            \item Con parámetros y sin retorno
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            def mostrar_nombre(nombre):
+                print("Nombre: " + nombre)
+            \end{minted}
+            \item Sin parámetros y con retorno
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            def obtener_nivel_alerta():
+                return "AMARILLO"
+            \end{minted}
+            \item Con parámetros y con retorno (la más completa)
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            def calcular_nota(nota1, nota2):
+                total = nota1 + nota2
+                return total
+            \end{minted}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejemplos de funciones}
+        Preparar café
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            def preparar_cafe(tipo, azucar=1):
+                print(f"Preparando café {tipo} con {azucar} cucharada(s)")
+            
+            preparar_cafe("americano")
+            preparar_cafe("espresso", 0)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejemplos de funciones}
+        Calcular propina
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            def calcular_propina(total, porcentaje=10):
+                propina = total * (porcentaje / 100)
+                return round(propina, 2)
+            
+            print(calcular_propina(25000))       # Propina del 10%
+            print(calcular_propina(25000, 15))   # Propina del 15%
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejemplos de funciones}
+        Enviar un mensaje
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            def enviar_mensaje(destinatario, texto):
+                print("Enviando a " + destinatario + ": '" + texto + "'")
+            
+            enviar_mensaje("Pedro", "El examen es a las 18:00")
+        \end{minted}
+    \end{frame}
+
+    % \begin{frame}[fragile, t]{Ejemplos de funciones en el ámbito militar}
+    %     Reporte de situación (SITREP)
+    %     \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+    %         def emitir_sitrep(unidad, posicion, estado):
+    %             print(f"Unidad:{unidad}|Pos:{posicion}|Estado:{estado}")
+            
+    %         emitir_sitrep("Alpha-1", "Grid 447823", "OPERATIVA")
+    %         emitir_sitrep("Bravo-3", "Grid 112045", "CONTACTO")
+    %     \end{minted}
+    % \end{frame}
+
+    % \begin{frame}[fragile, t]{Ejemplos de funciones en el ámbito militar}
+    %     Calcular autonomía de combustible
+    %     \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+    %         def autonomia(litros_disponibles, consumo_por_km):
+    %             km_posibles = litros_disponibles / consumo_por_km
+    %             return round(km_posibles, 1)
+            
+    %         print(autonomia(200, 0.4))  # Retorna 500.0 km
+    %     \end{minted}
+    % \end{frame}
+
+    % \begin{frame}[fragile, t]{Ejemplos de funciones en el ámbito militar}
+    %     Verificar acceso a instalación
+    %     \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+    %         def verificar_acceso(id, nivel_requerido, nivel_personal):
+    %             if nivel_personal >= nivel_requerido:
+    %                 print(f"Acceso AUTORIZADO para ID {id}")
+    %             else:
+    %                 print(f"Acceso DENEGADO para ID {id}")
+            
+    %         verificar_acceso("MIL-0042", 3, 4)  # Autorizado
+    %         verificar_acceso("MIL-0091", 3, 2)  # Denegado
+    %     \end{minted}
+    % \end{frame}
+
+    \begin{frame}[fragile,t]{Buenas prácticas}
+        \begin{enumerate}
+            \item Nombres descriptivos
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small, escapeinside=||]{python}
+            # |\textcolor{red}{\ding{55}}| Malo
+            def f(x, y):
+                return x + y
+            
+            # |\textcolor{green!60!black}{\ding{51}}| Bueno
+            def calcular_total_nota(nota1, nota2):
+                return nota1 + nota2
+            \end{minted}
+            \item Una función = una responsabilidad: Cada función debe hacer UNA sola cosa y hacerla bien.
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile,t]{Buenas prácticas}
+        \begin{enumerate}[3]
+            \item Documentar con docstrings
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            def calcular_autonomia(litros, consumo):
+                """
+                Calcula los kilómetros posibles según combustible 
+                disponible.
+                """
+                return litros / consumo
+            \end{minted}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Resumen y aspectos importantes}
+        \centering
+        \begin{tabular}{|p{3cm}|p{6cm}|}
+            \hline
+            Concepto & En una línea \\ \hline
+            Función & Bloque de código reutilizable con nombre propio \\ \hline
+            Método & Función que pertenece a un objeto o clase \\ \hline
+            Parámetro & Función que pertenece a un objeto o clase \\ \hline
+            Argumento & Valor real entregado al llamar la función \\ \hline
+            \mintinline{python}{return} & Permite que la función devuelva un resultado \\ \hline
+            \mintinline{python}{def} & Palabra reservada para definir una función en Python \\ \hline
+        \end{tabular}
+    \end{frame}
+
+    \begin{frame}{Razones para usar funciones}
+        \begin{itemize}
+            \item \textbf{Reutilización}: Escribe una vez, usa muchas veces
+            \item \textbf{Organización}: Código más limpio y ordenado
+            \item \textbf{Mantenimiento}: Si hay un error, se corrige en un solo lugar
+        \end{itemize}
+        
+        \textbf{"Una buena función hace una cosa, la hace bien y tiene un nombre que lo dice."}
+    \end{frame}
+
+\end{document}
