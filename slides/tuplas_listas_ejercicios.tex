@@ -1,0 +1,360 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I, the copyright holder of this work, release this work into the
+%% public domain. This applies worldwide. In some countries this may
+%% not be legally possible; if so: I grant anyone the right to use
+%% this work for any purpose, without any conditions, unless such
+%% conditions are required by law.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetheme[faculty=ped]{fibeamer}
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+%%
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%% These macros specify information about the presentation
+\title{Tuplas y listas: ejercicios} %% that will be typeset on the
+\subtitle{Semestre II-2026} %% title page.
+\author{Profesora: Andreina Cota Vidaurre}
+%% These additional packages are used within the document:
+\usepackage{ragged2e}  % `\justifying` text
+\usepackage{booktabs}  % Tables
+\usepackage{tabularx}
+\usepackage{tikz}      % Diagrams
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{positioning, arrows.meta, shadows.blur, shapes.geometric}
+\usepackage{amsmath, amssymb}
+\usepackage{url}       % `\url`s
+\usepackage{listings}  % Code listings
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+\usepackage{pifont}
+% \usepackage{adjustbox}
+
+
+% Definicion de pseudocodigo en espaniol
+\lstdefinelanguage{PseudocodigoES}{
+    morekeywords={INICIO,FIN,PARA,HACER,SI,ENTONCES,FIN_SI,FIN_PARA,IMPRIMIR},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+% Definicion de pseudocodigo en ingles
+\lstdefinelanguage{PseudocodeEN}{
+    morekeywords={BEGIN,END,FOR,DO,IF,THEN,END_IF,END_FOR,PRINT},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    gobble=4,
+    resetmargins=true,
+    aboveskip=0pt,
+    belowskip=0pt
+}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    breaklines=true,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    gobble=4,
+    resetmargins=true,
+    emph={print,input,int,float,str,bool,len,range},
+    emphstyle=\bfseries
+}
+
+\lstset{style=pythonstyle}
+
+% Estilos del diagrama
+\tikzstyle{iniciofin} = [
+    ellipse,
+    minimum width=2.5cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=blue!25
+]
+
+\tikzstyle{proceso} = [
+    rectangle,
+    rounded corners,
+    minimum width=3cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=cyan!20
+]
+
+\tikzstyle{decision} = [
+    diamond,
+    aspect=2,
+    text centered,
+    draw=black,
+    fill=yellow!35
+]
+
+\tikzstyle{flecha} = [
+    thick,
+    ->,
+    >=Stealth
+]
+
+% \definecolor{green_python}{HTML}{52A736}
+
+% \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+% \begin{darkframes}
+
+    \begin{frame}[fragile, t]{Nivel 1: Rellenar el código}
+        \begin{enumerate}
+            \item Se tiene una lista de clases de un curso. Completa el código para agregar 
+            \mintinline{python}{"programacion"} al final de la lista y luego imprimirla.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python} 
+            clases = ["matematicas", "fisica", "quimica"]
+            # Agrega "programacion" al final de la lista
+            clases.______("programacion")
+            print(clases)
+            # ['matematicas', 'fisica', 'quimica', 'programacion']
+            \end{minted}
+            \item Completa la tupla con la coordenada que falta y accede al segundo elemento.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            # Coordenada (latitud, longitud, altitud)
+            posicion = (4.7110, _______, 2600)
+            # Accede a la longitud (segundo elemento)
+            longitud = posicion[_______]
+            print(longitud) # -74.0721
+            \end{minted}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 1: Rellenar el código}
+        \begin{enumerate}
+            \item[3.] Completa el código para conocer cuántas notas hay y cuál es la primera nota.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            notas = [85, 92, 78, 95, 60]
+            
+            cantidad = _______(notas)
+            
+            primera_nota  = notas[_______]
+            
+            print(cantidad, primera_nota) # 5   85
+            \end{minted}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 2: Uso de funciones}
+        \begin{enumerate}
+            \item[4.] Tienes las temperaturas registradas durante una semana en una localidad. 
+            Usa funciones para encontrar la máxima, la mínima y el promedio de las temperaturas.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            temperaturas = [18, 22, 15, 25, 19, 13, 21]
+            
+            maxima  = ___(temperaturas)
+            minima  = ___(temperaturas)
+            promedio = sum(temperaturas) / ___(temperaturas)
+            
+            print(f"Máxima temp: {maxima}°C")
+            print(f"Mínima temp: {minima}°C")
+            print(f"Promedio temp: {promedio:.1f}°C")
+            \end{minted}
+            ¿Cómo ordenarías las temperaturas de mayor a menor?
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 2: Uso de funciones}
+        \begin{enumerate}
+            \item[5.] Dos puntos en un mapa se almacenan como tuplas. Calcula la distancia euclidiana entre ellos. 
+            La fórmula para calcular la distancia es: $\sqrt{(x_2-x_1)^{2} + (y_2-y_1)^{2}}$
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            import math
+
+            punto_a = (3, 4)
+            punto_b = (7, 1)
+            
+            distancia = ______________________________
+            print(f"Distancia: {distancia:.2f} unidades")
+            \end{minted}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 2: Uso de funciones}
+        \begin{enumerate}
+            \item[6.] Un dron se encuentra en la siguiente coordenada: \mintinline{python}{posicion = (15,30)}. 
+            Completa el código para mostrar las coordenadas X y Y del dron.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            print("X:", posicion[___])
+            print("Y:", posicion[___])
+            \end{minted}
+            \item[7.] Se tiene una lista de productos comprados en un supermercado:
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            productos = ["Pan","Leche","Huevos","Pan","Frutas"]
+            \end{minted}
+            \begin{itemize}
+                \item Mostrar cuántos productos existen en la lista
+                \item Mostrar cuantas veces aparece "Pan" en la lista
+            \end{itemize}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 2: Uso de funciones}
+        \begin{enumerate}
+            \item[8.] Se tiene la lista de estudiantes de un curso.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            estudiantes = ["Juan","Pedro","Luis", "Maria", "Javiera"]
+            \end{minted}
+            \begin{itemize}
+                \item Eliminar de la lista al estudiante "Pedro"
+                \item Agregar en su lugar un nuevo estudiante llamado "Carlos"
+                \item Mostrar la lista actualizada
+                \item Mostrar la cantidad total de estudiantes
+            \end{itemize}
+            \item[9.] Se tiene una lista con las notas de un examen:
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            notas=[7,6,4,5,6,7]
+            \end{minted}
+            \begin{itemize}
+                \item Contar cuántas veces aparece la nota 6
+                \item Mostrar en qué posición aparece la primera vez la nota 6
+            \end{itemize}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 2: Uso de funciones}
+        \begin{enumerate}
+            \item[10.] Tienes los precios de varios productos. Calcula el total de la compra y verifica si alcanza el presupuesto.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            precios = [1500, 3200, 800, 4500, 950]
+            presupuesto = 12000
+            
+            total = sum(precios)
+            print(f"Total: ${total}")
+            print(f"Presupuesto: ${presupuesto}")
+            # completar el codigo
+            \end{minted}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 3: Condicionales}
+        \begin{enumerate}
+            \item[11.] Si la nota es mayor o igual a 4, el estudiante aprueba; si no, reprueba.
+            Completa el código para imprimir el estado de aprobación de cada estudiante.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            notas = [7, 3.7, 6, 3, 6.5, 4]
+
+            for nota in notas:
+                # completar el codigo
+                pass
+            \end{minted}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 3: Condicionales}
+        \begin{enumerate}
+            \item[12.] Un sistema de acceso verifica si un soldado está en la lista autorizada. 
+            Si el nombre se encuentra en la lista, imprimir: \textcolor{blue}{Apellido}: Acceso concedido; 
+            si no se encuentra, imprimir: \textcolor{blue}{Apellido}: Acceso denegado.
+            
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            autorizados = ["García", "López", "Martínez", "Rodríguez"]
+            apellido = "López"
+            # completar el codigo
+            \end{minted}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 4: Ciclos}
+        \begin{enumerate}
+            \item[13.] Calcula cuántas raciones hay disponibles en total acumulando día a día.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            raciones_diarias = [120, 95, 110, 88, 130, 102, 115]
+            acumulado = 0
+            
+            for i in range(len(raciones_diarias)):
+                acumulado += raciones_diarias[i]
+                print(f"Día {i+1}: {raciones} raciones — \
+                Acumulado: {acumulado}")
+            \end{minted}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 4: Ciclos}
+        \begin{enumerate}
+            \item[14.]Genera pares \mintinline{python}{(n, resultado)} para la tabla de multiplicar de un número 
+            usando una lista de tuplas. Completa el código para generar la tabla de multiplicar del número 7.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            numero = 7
+            tabla = []
+            
+            for i in range(1, 11):
+                # completar el codigo
+                pass
+            
+            for factor, resultado in tabla:
+                print(f"{numero} x {factor} = {resultado}")
+            \end{minted}
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Nivel 4: Ciclos}
+        \begin{enumerate}
+            \item[15.] De una lista de edades de estudiantes, crea una nueva lista solo con aquellos que tienen entre 18 y 28 años.
+            \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            edades = [17, 22, 31, 19, 26, 15, 28, 35, 21]
+            lista_filtrada = []
+            
+            for edad in edades:
+                # completar el codigo
+                pass
+            
+            print(f"Lista filtrada: {lista_filtrada}")
+            print(f"Total de estudiantes en lista: {len(lista_filtrada)}")
+            \end{minted}
+        \end{enumerate}
+    \end{frame}
+    
+\end{document}
