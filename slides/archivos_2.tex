@@ -1,0 +1,565 @@
+\documentclass{beamer}
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetheme[faculty=ped]{fibeamer}
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+%%
+%%   \begin{otherlanguage}{czech}   ... \end{otherlanguage}
+%%   \begin{otherlanguage}{slovak}  ... \end{otherlanguage}
+%%
+%% These macros specify information about the presentation
+\title{Archivos - Segunda parte} %% that will be typeset on the
+\subtitle{Semestre II-2026} %% title page.
+\author{Profesora: Andreina Cota Vidaurre}
+%% These additional packages are used within the document:
+\usepackage{ragged2e}  % `\justifying` text
+\usepackage{booktabs}  % Tables
+\usepackage{tabularx}
+\usepackage{tikz}      % Diagrams
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{positioning, arrows.meta, shadows.blur, shapes.geometric}
+\usepackage{amsmath, amssymb}
+\usepackage{url}       % `\url`s
+\usepackage{listings}  % Code listings
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+% \usepackage{adjustbox}
+
+
+% Definicion de pseudocodigo en espaniol
+\lstdefinelanguage{PseudocodigoES}{
+    morekeywords={INICIO,FIN,PARA,HACER,SI,ENTONCES,FIN_SI,FIN_PARA,IMPRIMIR},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+% Definicion de pseudocodigo en ingles
+\lstdefinelanguage{PseudocodeEN}{
+    morekeywords={BEGIN,END,FOR,DO,IF,THEN,END_IF,END_FOR,PRINT},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    gobble=4,
+    resetmargins=true,
+    aboveskip=0pt,
+    belowskip=0pt
+}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    breaklines=true,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    gobble=4,
+    resetmargins=true,
+    emph={print,input,int,float,str,bool,len,range},
+    emphstyle=\bfseries
+}
+
+\lstset{style=pythonstyle}
+
+% Estilos del diagrama
+\tikzstyle{iniciofin} = [
+    ellipse,
+    minimum width=2.5cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=blue!25
+]
+
+\tikzstyle{proceso} = [
+    rectangle,
+    rounded corners,
+    minimum width=3cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=cyan!20
+]
+
+\tikzstyle{decision} = [
+    diamond,
+    aspect=2,
+    text centered,
+    draw=black,
+    fill=yellow!35
+]
+
+\tikzstyle{flecha} = [
+    thick,
+    ->,
+    >=Stealth
+]
+
+
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+    \begin{frame}[fragile, t]{Escritura con \mintinline{python}{write()}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            with open("reporte.txt", "w", encoding="utf-8") as archivo:
+                archivo.write("Reporte de notas\n")
+                archivo.write("Estudiante: Josh\n")
+        \end{minted}
+
+        \begin{itemize}
+            \item \mintinline{python}{write()} recibe un \mintinline{python}{str} como argumento.
+            \item No agrega un salto de línea automáticamente (\mintinline{python}{\n}).
+            \item Los valores de cualquier tipo diferente a string se tienen que convertir a \mintinline{python}{str}.
+        \end{itemize}
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            with open("reporte.txt", "w", encoding="utf-8") as archivo:
+                promedio = 36.8
+                archivo.write(promedio)               # TypeError
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Escritura con \mintinline{python}{write()}}
+        Modo \mintinline{python}{a} permite agregar registros sin perder el contenido existente.
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            with open("reporte.txt", "a", encoding="utf-8") as archivo:
+                archivo.write("7.0\n")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Escritura con \mintinline{python}{writelines()}}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            lineas = ["6.8\n", "6.1\n", "4.5\n"]
+            with open("notas.txt", "w", encoding="utf-8") as file:
+                file.writelines(lineas)
+        \end{minted}
+
+        \begin{itemize}
+            \item \mintinline{python}{writelines()} recibe una lista de \mintinline{python}{str} como argumento.
+            \item No agrega un salto de línea automáticamente (\mintinline{python}{"\n"}).
+        \end{itemize}
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            lineas = ["4.0\n", "3.2\n", "6.0\n"]
+            with open("notas.txt", "a", encoding="utf-8") as file:
+                file.writelines(lineas)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Procesamiento de contenido}
+        Las líneas leídas incluyen caracteres que pueden no ser relevantes, como el salto de línea (\mintinline{python}{\n}, espacios o tabulaciones).
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            linea = " 6.8\n "
+            dato = linea.strip()
+            print(dato)   # 6.8
+        \end{minted}
+
+        \begin{itemize}
+            \item \mintinline{python}{strip()} elimina los espacios en blanco (incluidos \mintinline{python}{\n, \t}) al inicio yb al final de la cadena.
+            \item \mintinline{python}{strip()} no modifica la cadena original si no que devuelve una nueva cadena.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Separación y conversión de tipos}
+        Cuando una línea contiene varios campos, \mintinline{python}{split()} los separa según un delimitador.
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            linea = "Hugo,17,4.5\t"
+            campos = linea.strip().split(",")   # ['6.8', '6.1', '4.5']
+
+            nombre = campos[0]
+            edad = int(campos[1])
+            nota = float(campos[2])
+            print(nombre, edad, nota)   # Hugo 17 4.5
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Procesamiento de archivos CSV}
+        Teniendo el archivos `notas.csv`:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{text}
+            nombre,edad,nota
+            Maria,18,5.0
+            Pedro,19,2.8
+            Juana,17,3.5
+        \end{minted}
+
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            with open("notas.csv", "r", encoding="utf-8") as a_ent:
+                a_ent.readline()           # descarta el encabezado
+                with open("aprobados.csv", "w", encoding="utf-8") as a_sal:
+                    a_sal.write("nombre,nota\n")
+                    for linea in a_ent:
+                        campos = linea.strip().split(",")
+                        nota = float(campos[2])
+                        if nota >= 4.0:
+                            a_sal.write(campos[0] + "," + str(nota) + "\n")
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Procesamiento de datos y generación de reportes}
+        Un reporte transforma datos almacenados en información útil. El procesamiento sigue tres etapas:
+        \begin{enumerate}
+            \item Lectura. Obtener los registros del archivo de entrada.
+            \item Procesamiento. Calcular indicadores con acumuladores, contadores, máximos, mínimos, etc.
+            \item Escritura. Registrar los resultados en un archivo de salida.
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Reporte de notas}
+        El curso de Programación registra cada nota en el archivo `notas.csv` con el siguiente formato:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{text}
+            fecha,nombre,nota
+            2026-08-05,Juan,5.0
+            2026-08-05,Marcela,4.0
+            2026-09-15,Juan,4.5
+            2026-09-15,Marcela,3.5
+            2026-10-03,Hugo,2.0
+        \end{minted}
+        Se necesita un reporte con: 
+        \begin{itemize}
+            \item El promedio de notas de cada estudiante.
+            \item El promedio general de las notas.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Reporte de notas}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            filename = "notas.csv"
+            lista_nombres = [], lista_notas = [], promedios = []
+            with open(filename, "r", encoding="utf-8") as a_ent:
+                a_ent.readline()           # descarta el encabezado
+                for linea in a_ent:
+                    campos = linea.strip().split(",")
+                    nombre = campos[1]
+                    nota = float(campos[2])
+                    if nombre in lista_nombres:
+                        index = lista_nombres.index(nombre)
+                        lista_notas[index].append(float(nota))
+                    else:
+                        lista_nombres.append(nombre)
+                        lista_notas.append([float(nota)]))
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Reporte de notas}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+
+            with open("reporte.txt", "w", encoding="utf-8") as a_sal:
+                a_sal.write("nombre,nota\n") # crea el encabezado
+                for i in range(len(lista_nombres)):
+                    nombre = lista_nombres[i]
+                    notas = lista_notas[i]
+                    promedio = sum(notas) / len(notas)
+                    promedios.append(promedio)
+                    a_sal.write(nombre + "," + str(promedio) + "\n")
+                promedio_general = sum(promedios) / len(promedios)
+                a_sal.write("promedio_general:" + str(promedio_general))
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Reporte de notas}
+        Resultado del archivo `reporte.txt`:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{text}
+            nombre,nota
+            Juan,4.75
+            Marcela,3.75
+            Hugo,2.0
+            promedio_general:3.5
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Errores frecuentes}
+        \renewcommand{\arraystretch}{1.25}
+        \begin{center}
+            \scriptsize
+            \begin{tabular}{@{}p{2.6cm}p{3.6cm}p{4.2cm}@{}}
+                \toprule
+                \textbf{Error} & \textbf{Causa habitual} & \textbf{Prevención} \\
+                \midrule
+                \mintinline{python}{FileNotFoundError} &
+                Ruta relativa desde un directorio distinto al esperado &
+                Verificar el directorio de ejecución o la ruta \\
+                Pérdida de datos &
+                Abrir con \mintinline{python}{"w"} un archivo que se quería conservar &
+                Usar \mintinline{python}{"a"} para agregar; \mintinline{python}{"w"} solo si se puede reemplazar \\
+                \mintinline{python}{UnsupportedOperation} &
+                Leer en modo \mintinline{python}{"w"}/\mintinline{python}{"a"} o escribir en \mintinline{python}{"r"} &
+                Abrir con el modo que corresponde a la operación \\
+                \mintinline{python}{TypeError} en \mintinline{python}{write()} &
+                Escribir un valor que no es \mintinline{python}{str} &
+                Convertir con \mintinline{python}{str()} antes de escribir \\
+                \bottomrule
+            \end{tabular}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Errores frecuentes}
+        \renewcommand{\arraystretch}{1.25}
+        \begin{center}
+            \scriptsize
+            \begin{tabular}{@{}p{2.6cm}p{3.6cm}p{4.2cm}@{}}
+                \toprule
+                \textbf{Error} & \textbf{Causa habitual} & \textbf{Prevención} \\
+                \midrule
+                \mintinline{python}{ValueError} al convertir &
+                Encabezado, línea vacía o número con coma decimal &
+                Descartar el encabezado y limpiar con \mintinline{python}{strip()} \\
+                \mintinline{python}{IndexError} &
+                Línea vacía: \mintinline{python}{split()} devuelve menos campos &
+                Verificar que la línea no esté vacía antes de procesarla \\
+                Caracteres incorrectos &
+                Codificación distinta entre escritura y lectura (p.\ ej.\ ñ) &
+                Especificar siempre \mintinline{python}{encoding="utf-8"} \\
+                Segunda lectura vacía &
+                El cursor quedó al final tras \mintinline{python}{read()} o un \mintinline{python}{for} &
+                Leer una sola vez y guardar el contenido en una variable \\
+                \bottomrule
+            \end{tabular}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Buenas prácticas}
+        \begin{itemize}
+            \item Usar \mintinline{python}{with} para garantizar el cierre del archivo.
+            \item Especificar el modo y la codificación de forma explícita, aunque coincidan con los valores por defecto.
+            \item Limpiar cada línea con \mintinline{python}{strip()} antes de separarla o convertirla.
+            \item Separar las etapas de lectura, procesamiento y escritura.
+            \item Leer el archivo una sola vez y almacenar lo necesario en variables o listas.
+            \item Escribir en un archivo distinto al de entrada, para no perder los datos originales si el programa falla.
+            \item Considerar casos límite: archivo vacío, solo encabezado, líneas en blanco.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Contar palabras}
+        Se necesita un programa que cuente las palabras en un archivo de texto `mensaje.txt`. 
+        Ejemplo:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{text}
+            Python es el lenguaje
+                de programacion utilizado
+              en el curso de Introduccion a la Programacion (IIC1103)
+        \end{minted}
+
+        El resultado debe ser:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{text}
+            Cantidad de palabras: 16
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Contar palabras}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            filename = "mensaje.txt"
+            with open(filename, "r", encoding="utf-8") as _______:
+                contenido = archivo.read()
+                palabras = ___________
+                num_palabras = _________(palabras)
+                print("Cantidad de palabras:", num_palabras)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Analizar la canción de Violeta Parra}
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.8\textwidth]{violera_parra.png}
+        \end{figure}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Analizar la canción de Violeta Parra}
+        Una aplicación musical necesita analizar la estructura de una canción de Violeta Parra.
+
+        El archivo `cancion.txt` contiene la letra de una canción, donde cada estrofa está separada por una línea en blanco.
+
+        Desarrolle un programa que determine:
+        \begin{enumerate}
+            \item La cantidad de estrofas.
+            \item La cantidad total de versos (líneas con texto).
+            \item La cantidad de veces que aparece una palabra indicada por el usuario, sin distinguir mayúsculas de minúsculas.
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Analizar la canción de Violeta Parra}
+        El archivo `cancion.txt`.
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{text}
+            Canta la tierra al amanecer
+            Canta el viento al pasar
+            Las flores despiertan
+            Y comienza un nuevo cantar
+
+            La vida guarda recuerdos
+            Que el tiempo no borrará
+            La música sigue viva
+            Y siempre nos acompañará
+
+            Canta la lluvia en el campo
+            Canta el río junto al mar
+            La guitarra cuenta historias
+            Que queremos recordar
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Analizar la canción de Violeta Parra}
+        \vspace{-0.1cm}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\scriptsize]{python}
+            archivo = open("cancion.txt", "___", encoding="utf-8")
+            lineas = archivo.________()
+            archivo.________()
+            estrofas = 0, versos = 0, apariciones = 0
+            palabra = input("Palabra a buscar: ").lower()
+            dentro_estrofa = False
+            for linea in lineas:
+                linea = linea.________()
+                if linea == "":
+                    dentro_estrofa = False
+                else:
+                    versos += 1
+                    if not dentro_estrofa:
+                        estrofas += 1
+                        dentro_estrofa = True
+                    palabras = linea.lower().________()
+                    apariciones += palabras._______(palabra)
+            print("Estrofas:", estrofas, "Versos:", versos, "Apariciones:", apariciones)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Analizar la canción de Violeta Parra}
+        Resultado del programa:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\scriptsize]{python}
+            Palabra a buscar: canta
+            Estrofas: 3 Versos: 12 Apariciones: 4
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Gestión de inventario}
+        Una tienda almacena los productos disponibles en un archivo llamado `inventario.csv`. Cada producto contiene tres datos: 
+        Nombre del producto, precio unitario y cantidad disponible. Desarrolle un programa que:
+        \begin{enumerate}
+            \item Lea los productos registrados en el archivo.
+            \item Solicite al usuario un presupuesto máximo.
+            \item Identifique los productos cuyo precio sea menor o igual al presupuesto.
+            \item Muestre el nombre, precio y cantidad disponible de los productos encontrados.
+            \item Genere un archivo `productos\_disponibles.txt` con los resultados.
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Gestión de inventario}
+        Archivo `inventario.csv`:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\scriptsize]{text}
+            producto,precio,cantidad
+            Cuaderno,2500,10
+            Lapiz,500,30
+            Mochila,18000,3
+            Regla,1200,15
+            Calculadora,12000,2
+            Goma,800,20
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Gestión de inventario}
+        Entrada:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\scriptsize]{python}
+            Presupuesto: 3000
+        \end{minted}
+        Salida:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\scriptsize]{text}
+            PRODUCTOS DISPONIBLES
+
+            Cuaderno - $2500 - Stock: 10
+            Lapiz - $500 - Stock: 30
+            Regla - $1200 - Stock: 15
+            Goma - $800 - Stock: 20
+
+            Total de productos encontrados: 4
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Ejercicio: Gestión de inventario}
+        \vspace{-0.1cm}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\scriptsize]{python}
+            presupuesto = int(input("Ingrese su presupuesto: "))
+            with open("inventario.csv", "r", encoding="utf-8") as archivo:
+                lineas = archivo.________()
+            with open("productos_disponibles.txt", "___", encoding="utf-8") as salida:
+                salida.write("PRODUCTOS DISPONIBLES\n\n")
+                contador = 0
+                for linea in lineas[1:]:
+                    datos = linea.strip().________(",")
+                    producto = datos[0]
+                    precio = int(datos[1])
+                    cantidad = int(datos[2])
+
+                    if precio ___ presupuesto:
+                        resultado = producto+" - $"+str(precio)+" - Stock: "+str(cantidad)
+                        print(resultado)
+                        salida.________(resultado + "\n")
+                        contador += 1
+                salida.write("\nTotal de productos encontrados: " + str(contador) + "\n")
+            print("Total de productos encontrados:", contador)
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Síntesis}
+        \begin{itemize}
+            \item \textbf{Persistencia:} Los archivos permiten almacenar
+            datos para recuperarlos en futuras ejecuciones.
+
+            \pause
+            \item \textbf{Operaciones básicas:} Apertura, lectura,
+            escritura y cierre de archivos.
+
+            \pause
+            \item \textbf{Modos de apertura:} \mintinline{python}{r} (lectura),
+            \mintinline{python}{w} (sobrescritura) y \mintinline{python}{a} (agregar datos).
+
+            \pause
+            \item \textbf{Procesamiento:} Los datos recuperados pueden
+            manipularse mediante strings, listas y otras estructuras.
+
+            \pause
+            \item \textbf{Formatos:} \mintinline{python}{txt}, \mintinline{python}{csv} y \mintinline{python}{json} permiten representar
+            y organizar datos de diferentes maneras.
+
+            \pause
+            \item \textbf{Buenas prácticas:} Utilizar \mintinline{python}{with},
+            considerar la codificación y verificar las rutas.
+        \end{itemize}
+    \end{frame}
+
+\end{document}
