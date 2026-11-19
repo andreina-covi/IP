@@ -1,0 +1,246 @@
+\documentclass{beamer}
+\usetheme[faculty=ped,basePath=../fibeamer,logo=../fibeamer/logo/mu/Logo-UC-3.png]{fibeamer}
+\graphicspath{{../resources/}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetheme[faculty=ped]{fibeamer}
+\usepackage[utf8]{inputenc}
+\usepackage[
+  main=english,
+  czech, slovak
+]{babel}
+\title{Programación Orientada a Objetos}
+\subtitle{Semestre II-2026}
+\author{Profesora: Andreina Cota Vidaurre}
+
+\usepackage{ragged2e}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{calc, shapes, backgrounds}
+\usetikzlibrary{positioning, arrows.meta, shadows.blur, shapes.geometric}
+\usepackage{amsmath, amssymb}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+
+\lstdefinelanguage{PseudocodigoES}{
+    morekeywords={INICIO,FIN,PARA,HACER,SI,ENTONCES,FIN_SI,FIN_PARA,IMPRIMIR},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstdefinelanguage{PseudocodeEN}{
+    morekeywords={BEGIN,END,FOR,DO,IF,THEN,END_IF,END_FOR,PRINT},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    gobble=4,
+    resetmargins=true,
+    aboveskip=0pt,
+    belowskip=0pt
+}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    breaklines=true,
+    xleftmargin=0em,
+    framexleftmargin=0em,
+    framesep=2pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    gobble=4,
+    resetmargins=true,
+    emph={print,input,int,float,str,bool,len,range},
+    emphstyle=\bfseries
+}
+
+\lstset{style=pythonstyle}
+
+\tikzstyle{iniciofin} = [
+    ellipse,
+    minimum width=2.5cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=blue!25
+]
+
+\tikzstyle{proceso} = [
+    rectangle,
+    rounded corners,
+    minimum width=3cm,
+    minimum height=1cm,
+    text centered,
+    draw=black,
+    fill=cyan!20
+]
+
+\tikzstyle{decision} = [
+    diamond,
+    aspect=2,
+    text centered,
+    draw=black,
+    fill=yellow!35
+]
+
+\tikzstyle{flecha} = [
+    thick,
+    ->,
+    >=Stealth
+]
+
+\frenchspacing
+\begin{document}
+  \shorthandoff{-}
+  \frame[c]{\maketitle}
+
+    %------------------------------------------------------------------
+    \begin{frame}{Ejercicio: Autonomía de un bus eléctrico}
+        En los sistemas de transporte público con electromovilidad, la planificación
+        de recorridos requiere estimar si la energía almacenada en la batería de un
+        bus es suficiente para completar una ruta.
+
+        \vspace{0.4em}
+        Cada tramo de la ruta tiene un consumo energético conocido, determinado por
+        su distancia, pendiente y condiciones de tránsito.
+
+        \vspace{0.6em}
+        \textcolor{blue}{\textbf{Tu tarea:} modelar la batería de un bus eléctrico
+        mediante una clase y utilizarla para simular el recorrido de una ruta.}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Parte 1: La clase \texttt{Bateria}}
+        Toda batería se identifica por un \textbf{código}, tiene una
+        \textbf{capacidad máxima} y una \textbf{carga actual}, ambas medidas en kWh.
+
+        \vspace{0.4em}
+        Define la clase \mintinline{python}{Bateria} construyendo los siguientes métodos:
+
+        \begin{enumerate}
+            \item \textbf{Método de inicialización}
+            \mintinline{python}{__init__(self, id_bateria, capacidad, carga)}:
+            crea la batería y define sus tres atributos a partir de los valores recibidos.
+            \pause
+            \item \textbf{Método} \mintinline{python}{descargar(self, energia)}:
+            extrae de la batería la energía solicitada. Si no tiene suficiente carga,
+            entrega solo la disponible. La carga actual nunca puede quedar negativa.
+            Debe \textbf{retornar la energía que efectivamente entregó}.
+            \pause
+            \item \textbf{Método} \mintinline{python}{estado(self)}:
+            retorna un texto con el formato \texttt{"BUS-E12: 120/350 kWh"},
+            es decir, código, carga actual y capacidad.
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Parte 2: Simulación de la ruta}
+        Un bus inicia su recorrido con una batería de \textbf{350 kWh} de capacidad
+        y \textbf{120 kWh} de carga. La ruta está representada como una lista de tuplas
+        \texttt{(nombre del tramo, consumo en kWh)}:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{python}
+            tramos = [
+                ("Terminal - Centro", 30),
+                ("Centro - Hospital", 45),
+                ("Hospital - Universidad", 25),
+                ("Universidad - Terminal", 40)
+            ]
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Parte 2: Simulación de la ruta}
+        Escribe un programa que:
+        \begin{enumerate}
+            \item Cree un objeto de la clase \mintinline{python}{Bateria} con los datos
+            del bus y muestre su estado inicial.
+            \pause
+            \item Recorra los tramos en orden y, para cada uno, descargue de la batería
+            el consumo correspondiente.
+            \pause
+            \item Muestre un mensaje por cada tramo:
+            \begin{itemize}
+                \item Si entregó toda la energía:
+                \texttt{"<tramo>: completado | <estado>"}
+                \item Si no alcanzó:
+                \texttt{"<tramo>: energía insuficiente, faltaron <faltante> kWh"}
+            \end{itemize}
+        \end{enumerate}
+
+        \vspace{0.5em}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Plantilla: clase \texttt{Bateria}}
+        Complete los métodos de la clase:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\scriptsize]{python}
+            class Bateria:
+                def __init__(self, id_bateria, capacidad, carga):
+                    # Completar
+                    pass
+
+                def descargar(self, energia):
+                    # Completar
+                    pass
+
+                def estado(self):
+                    # Completar
+                    pass
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Plantilla: programa principal}
+        Complete la creación del objeto y el recorrido de los tramos:
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\scriptsize]{python}
+            # Programa principal
+            tramos = [
+                ("Terminal - Centro", 30),
+                ("Centro - Hospital", 45),
+                ("Hospital - Universidad", 25),
+                ("Universidad - Terminal", 40)
+            ]
+
+            bus = # Completar: crear la batería del bus
+            print(bus.estado())
+
+            for tramo, consumo in tramos:
+                # Completar
+                pass
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[fragile, t]{Salida esperada}
+        \begin{minted}[xleftmargin=-2cm, frame=leftline, fontsize=\small]{text}
+            BUS-E12: 120/350 kWh
+            Terminal - Centro: completado | BUS-E12: 90/350 kWh
+            Centro - Hospital: completado | BUS-E12: 45/350 kWh
+            Hospital - Universidad: completado | BUS-E12: 20/350 kWh
+            Universidad - Terminal: energía insuficiente, faltaron 20 kWh
+        \end{minted}
+    \end{frame}
+
+\end{document}
